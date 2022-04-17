@@ -2,22 +2,16 @@ FROM golang:alpine
 
 LABEL maintainer="nrmadi02 <nrmadi02@gmail.com>"
 
-RUN apk update && apk add --no-cache git
+RUN mkdir /app
+
+ADD . /app/
 
 WORKDIR /app
 
-COPY go.mod ./
+RUN go get -d
 
-RUN go mod tidy
+RUN go build -o main .
 
-COPY go.sum ./
-
-RUN go mod download
-
-COPY . .
-
-RUN go build -o /binary
+CMD ["/app/main"]
 
 EXPOSE 8080
-
-CMD ["/binary"]
