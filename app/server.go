@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"github.com/Microsoft/ApplicationInsights-Go/appinsights"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go_cicd/app/config"
@@ -14,9 +13,6 @@ import (
 )
 
 func Run() {
-	client := appinsights.NewTelemetryClient(os.Getenv("APPINSIGHTS_INSTRUMENTATIONKEY"))
-	request := appinsights.NewRequestTelemetry("GET", "https://myapp.azurewebsites.net/", 1, "Success")
-	client.Track(request)
 
 	db := config.InitDB()
 

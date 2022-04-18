@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"go_cicd/domain"
-	"gorm.io/driver/sqlserver"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
 )
@@ -28,7 +28,7 @@ func InitDB() *gorm.DB {
 		DB_Name:     os.Getenv("DB_NAME"),
 	}
 
-	connectionString := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s",
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 
 		config.DB_Username,
 		config.DB_Password,
@@ -38,7 +38,7 @@ func InitDB() *gorm.DB {
 	)
 
 	var err error
-	DB, err = gorm.Open(sqlserver.Open(connectionString), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

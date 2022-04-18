@@ -2,6 +2,8 @@ FROM golang:alpine
 
 LABEL maintainer="nrmadi02 <nrmadi02@gmail.com>"
 
+RUN apk add git
+
 RUN mkdir /app
 
 ADD . /app/
