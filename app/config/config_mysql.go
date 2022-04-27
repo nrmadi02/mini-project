@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"go_cicd/domain"
+	"github.com/nrmadi02/mini-project/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
@@ -50,4 +50,5 @@ func InitDB() *gorm.DB {
 
 func InitialMigration() {
 	DB.AutoMigrate(&domain.User{})
+	DB.AutoMigrate(&domain.Role{})
 }
