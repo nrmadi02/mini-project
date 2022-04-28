@@ -12,6 +12,10 @@ WORKDIR /app
 
 RUN go get -d
 
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
+RUN swag init -g app/server.go
+
 RUN go build -o main .
 
 CMD ["/app/main"]

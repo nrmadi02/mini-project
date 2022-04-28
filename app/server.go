@@ -6,9 +6,21 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/nrmadi02/mini-project/app/config"
 	"github.com/nrmadi02/mini-project/app/router"
+	_ "github.com/nrmadi02/mini-project/docs"
 	mid "github.com/nrmadi02/mini-project/user/delivery/http/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"os"
 )
+
+// @title UMKM applications Documentation
+// @description This is a UMKM management application
+// @version 2.0
+// @host localhost:8080
+// @BasePath /api/v1
+// @schemes http
+// @securityDefinitions.apiKey JWT
+// @in header
+// @name Authorization
 
 func Run() {
 
@@ -18,6 +30,7 @@ func Run() {
 	mid.NewGoMiddleware().LogMiddleware(e)
 
 	router.SetupRouter(e, db)
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	address := fmt.Sprintf(":%s", os.Getenv("APP_PORT"))
 

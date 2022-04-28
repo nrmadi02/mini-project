@@ -1,17 +1,18 @@
 package domain
 
 import (
-	"github.com/nrmadi02/mini-project/domain/web/request"
-	"github.com/nrmadi02/mini-project/domain/web/response"
+	request2 "github.com/nrmadi02/mini-project/web/request"
+	"github.com/nrmadi02/mini-project/web/response"
+	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
 type User struct {
-	ID        string    `json:"id"`
+	ID        uuid.UUID `json:"id" gorm:"PrimaryKey"`
 	Fullname  string    `json:"fullname" gorm:"notnull"`
 	Email     string    `json:"email" gorm:"notnull"`
 	Username  string    `json:"username" gorm:"unique;notnull"`
-	Password  []byte    `json:"password" gorm:"notnull"`
+	Password  string    `json:"password" gorm:"notnull"`
 	Roles     []Role    `json:"roles" gorm:"many2many:user_roles;"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"UpdatedAt"`
@@ -31,8 +32,8 @@ type UserUsecase interface {
 }
 
 type AuthUsecase interface {
-	Login(request request.LoginRequest) (response.SuccessLogin, error)
-	Register(request request.UserCreateRequest) (User, error)
+	Login(request request2.LoginRequest) (response.SuccessLogin, error)
+	Register(request request2.UserCreateRequest) (User, error)
 	GetUserDetails(id string) (User, error)
 	CheckIfUserIsAdmin(id string) (bool, error)
 }

@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/nrmadi02/mini-project/db/seeds"
 	"github.com/nrmadi02/mini-project/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -49,6 +50,11 @@ func InitDB() *gorm.DB {
 }
 
 func InitialMigration() {
-	DB.AutoMigrate(&domain.User{})
-	DB.AutoMigrate(&domain.Role{})
+	err := DB.AutoMigrate(&domain.User{}, &domain.Role{})
+
+	if err != nil {
+		panic("could not connect to db")
+		return
+	}
+	seeds.Execute(DB)
 }

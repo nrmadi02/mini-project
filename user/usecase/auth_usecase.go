@@ -3,9 +3,11 @@ package usecase
 import (
 	"errors"
 	"github.com/nrmadi02/mini-project/domain"
-	"github.com/nrmadi02/mini-project/domain/web/request"
-	"github.com/nrmadi02/mini-project/domain/web/response"
 	role "github.com/nrmadi02/mini-project/role/utils"
+	"github.com/nrmadi02/mini-project/user/delivery/http/helper"
+	request2 "github.com/nrmadi02/mini-project/web/request"
+	"github.com/nrmadi02/mini-project/web/response"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -21,19 +23,43 @@ func NewAuthUsecase(ur domain.UserRepository, rr domain.RoleRepository) domain.A
 	}
 }
 
-func (a authUsecase) Login(request request.LoginRequest) (response.SuccessLogin, error) {
-	//TODO implement me
-	panic("implement me")
+func (a authUsecase) Login(request request2.LoginRequest) (response.SuccessLogin, error) {
+	user, err := a.userRepository.FindUserByEmail(request.Email)
+	if err != nil {
+		return response.SuccessLogin{}, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
+	if err != nil {
+		return response.SuccessLogin{}, errors.New("password wrong")
+	}
+
+	jwt := helper.NewGoJWT()
+	token, err := jwt.CreateTokenJWT(&user)
+	if err != nil {
+		return response.SuccessLogin{}, err
+	}
+
+	responseLogin := response.SuccessLogin{
+		ID:       user.ID,
+		Username: user.Username,
+		Fullname: user.Fullname,
+		Email:    user.Email,
+		Token:    token,
+	}
+
+	return responseLogin, nil
+
 }
 
-func (a authUsecase) Register(request request.UserCreateRequest) (domain.User, error) {
+func (a authUsecase) Register(request request2.UserCreateRequest) (domain.User, error) {
 	var existingUser domain.User
 	existingUser, _ = a.userRepository.FindUserByEmail(request.Email)
-	if existingUser.ID != "" {
+	if existingUser.ID != uuid.FromStringOrNil("") {
 		return domain.User{}, errors.New("user already exist")
 	}
 
-	password, _ := bcrypt.GenerateFromPassword([]byte(request.Password), 12)
+	password, _ := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 
 	clientRole, err := a.roleRepository.FindByName(role.Client.String())
 	if err != nil {
@@ -41,10 +67,11 @@ func (a authUsecase) Register(request request.UserCreateRequest) (domain.User, e
 	}
 
 	user := domain.User{
+		ID:       uuid.NewV4(),
 		Fullname: request.Fullname,
 		Username: request.Username,
 		Email:    request.Email,
-		Password: password,
+		Password: string(password),
 		Roles:    []domain.Role{clientRole},
 	}
 
@@ -58,11 +85,27 @@ func (a authUsecase) Register(request request.UserCreateRequest) (domain.User, e
 }
 
 func (a authUsecase) GetUserDetails(id string) (domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+	var user domain.User
+
+	user, err := a.userRepository.FindUserById(id)
+	if err != nil {
+		return domain.User{}, err
+	}
+
+	return user, nil
 }
 
 func (a authUsecase) CheckIfUserIsAdmin(id string) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	user, err := a.userRepository.FindUserById(id)
+	if err != nil {
+		return false, err
+	}
+
+	for _, a := range user.Roles {
+		if a.Name == "ROLE_ADMIN" {
+			return true, nil
+		}
+	}
+	return false, nil
+
 }

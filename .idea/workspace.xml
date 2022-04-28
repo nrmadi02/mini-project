@@ -5,40 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/role.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/role/repository/role.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/role/utils/role_enum.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/usecase/auth_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/go_ci-cd.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/seeds/role_seeder.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/seeds/seeder.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/response/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/response/user_response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/mocks/UserRepository.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/mocks/UserUsecase.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/role.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/request/user_create_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/web/request/user_create_request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/request/login_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/request/login_request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/request/user_create_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/request/user_create_request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/response/login_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/login_response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/response/user_create_response.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/response/user_response.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/web/response/users_response.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role/utils/role_enum.go" beforeDir="false" afterPath="$PROJECT_DIR$/role/utils/role_enum.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/helper/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/helper/jwt.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/delivery/http/user_controller_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/user_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/usecase/user_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/usecase/user_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/usecase/user_usecase_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/usecase/auth_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/usecase/auth_usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+        <option value="OpenAPI" />
+        <option value="Swagger" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.18" />
   <component name="Git.Settings">
@@ -63,6 +68,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Dockerfile" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/router/router.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -75,6 +81,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
     "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -88,6 +95,11 @@
     "settings.editor.selected.configurable": "com.goide.configuration.GoLibrariesConfigurableProvider"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="github.com/nrmadi02/mini-project" />
@@ -104,6 +116,38 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Admin_specs.json" type="SwaggerCodegen">
+      <option name="activeConfigurationType" value="FILE" />
+      <option name="configurationPath" value="" />
+      <option name="customJreEnabled" value="false" />
+      <option name="customTemplatesPath" value="" />
+      <option name="enableDebugLogging" value="false" />
+      <option name="generateToPath" value="$PROJECT_DIR$/gen" />
+      <option name="generationParameters">
+        <list />
+      </option>
+      <option name="generatorPath" value="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0/openapi-generator-cli-5.0.0.jar" />
+      <option name="jdkPath" value="Default" />
+      <option name="language" value="java" />
+      <option name="specificationPath" value="$PROJECT_DIR$/docs/apispecs.json" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="SwaggerCodegen">
+      <option name="activeConfigurationType" value="FILE" />
+      <option name="configurationPath" value="" />
+      <option name="customJreEnabled" value="false" />
+      <option name="customTemplatesPath" value="" />
+      <option name="enableDebugLogging" value="false" />
+      <option name="generateToPath" value="$PROJECT_DIR$/gen" />
+      <option name="generationParameters">
+        <list />
+      </option>
+      <option name="generatorPath" value="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0/openapi-generator-cli-5.0.0.jar" />
+      <option name="jdkPath" value="Default" />
+      <option name="language" value="java" />
+      <option name="specificationPath" value="$PROJECT_DIR$/docs/apispecs.json" />
       <method v="2" />
     </configuration>
   </component>

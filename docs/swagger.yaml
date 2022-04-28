@@ -1,0 +1,233 @@
+basePath: /api/v1
+definitions:
+  request.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  request.UserCreateRequest:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  response.JSONBadRequestResult:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  response.JSONSuccessResult:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  response.JSONUnauthorizedResult:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  response.SuccessLogin:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: string
+      token:
+        type: string
+      username:
+        type: string
+    type: object
+  response.UserCreateResponse:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+  response.UserDetailResponse:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+  response.UsersListResponse:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a UMKM management application
+  title: UMKM applications Documentation
+  version: "2.0"
+paths:
+  /admin/users:
+    get:
+      consumes:
+      - application/json
+      description: Get list users can access only admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.UsersListResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Get list users
+      tags:
+      - Admin
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login for get JWT token
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.SuccessLogin'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      summary: Login user
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register for create new user
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserCreateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      summary: Register new user
+      tags:
+      - Auth
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: User id get default by claims JWT Token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserDetailResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Get detail user by JWT Token
+      tags:
+      - User
+schemes:
+- http
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

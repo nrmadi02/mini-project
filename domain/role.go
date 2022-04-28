@@ -1,8 +1,8 @@
 package domain
 
 type Role struct {
-	ID   string `json:"id"`
-	Name string `json:"name" gorm:"notnull"`
+	ID   int    `json:"id" gorm:"PrimaryKey"`
+	Name string `json:"name" gorm:"unique;notnull"`
 }
 
 type RoleRepository interface {

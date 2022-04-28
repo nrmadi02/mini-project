@@ -2,14 +2,9 @@ package helper
 
 import (
 	"github.com/golang-jwt/jwt"
+	"github.com/nrmadi02/mini-project/domain"
 	"time"
 )
-
-type MyClaims struct {
-	UserID int    `json:"userID"`
-	Email  string `json:"email"`
-	jwt.StandardClaims
-}
 
 type GoJWT struct {
 }
@@ -18,16 +13,13 @@ func NewGoJWT() *GoJWT {
 	return &GoJWT{}
 }
 
-func (j *GoJWT) CreateTokenJWT(userID int, email string) (string, error) {
-	claims := MyClaims{
-		UserID: userID,
-		Email:  email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
-		},
-	}
+func (j *GoJWT) CreateTokenJWT(user *domain.User) (string, error) {
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"UserID":    user.ID,
+		"Roles":     user.Roles,
+		"ExpiresAt": time.Now().Add(time.Hour * 48).Unix(),
+	})
 
 	return token.SignedString([]byte("220220"))
 }
