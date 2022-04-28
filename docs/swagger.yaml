@@ -1,5 +1,17 @@
 basePath: /api/v1
 definitions:
+  domain.Tag:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  request.CreateTagRequest:
+    properties:
+      name:
+        type: string
+    type: object
   request.LoginRequest:
     properties:
       email:
@@ -19,6 +31,15 @@ definitions:
         type: string
     type: object
   response.JSONBadRequestResult:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  response.JSONSuccessDeleteResult:
     properties:
       code:
         type: integer
@@ -57,6 +78,13 @@ definitions:
       token:
         type: string
       username:
+        type: string
+    type: object
+  response.TagsListResponse:
+    properties:
+      id:
+        type: string
+      name:
         type: string
     type: object
   response.UserCreateResponse:
@@ -99,38 +127,6 @@ info:
   title: UMKM applications Documentation
   version: "2.0"
 paths:
-  /admin/users:
-    get:
-      consumes:
-      - application/json
-      description: Get list users can access only admin
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.JSONSuccessResult'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/response.UsersListResponse'
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.JSONBadRequestResult'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/response.JSONUnauthorizedResult'
-      security:
-      - JWT: []
-      summary: Get list users
-      tags:
-      - Admin
   /login:
     post:
       consumes:
@@ -197,6 +193,106 @@ paths:
       summary: Register new user
       tags:
       - Auth
+  /tag:
+    post:
+      consumes:
+      - application/json
+      description: create tag can access only admin
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateTagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Tag'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Create tag
+      tags:
+      - Tag
+  /tag/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete tag can access only admin
+      parameters:
+      - description: id tag
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessDeleteResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Delete tag by id
+      tags:
+      - Tag
+  /tags:
+    get:
+      consumes:
+      - application/json
+      description: Get list tags can access only admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.TagsListResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Get list tags
+      tags:
+      - Tag
   /user:
     get:
       consumes:
@@ -221,6 +317,38 @@ paths:
       security:
       - JWT: []
       summary: Get detail user by JWT Token
+      tags:
+      - User
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get list users can access only admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.UsersListResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Get list users
       tags:
       - User
 schemes:

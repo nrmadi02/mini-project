@@ -27,10 +27,10 @@ func NewAdminController(au domain.AuthUsecase, uu domain.UserUsecase) AdminContr
 // GetUserList godoc
 // @Summary Get list users
 // @Description Get list users can access only admin
-// @Tags Admin
+// @Tags User
 // @accept json
 // @Produce json
-// @Router /admin/users [get]
+// @Router /users [get]
 // @Success 200 {object} response.JSONSuccessResult{data=[]response.UsersListResponse}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 401 {object} response.JSONUnauthorizedResult{}

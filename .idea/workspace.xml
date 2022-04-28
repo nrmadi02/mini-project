@@ -5,31 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/seeds/role_seeder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/seeds/seeder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/response/response.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/response/user_response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/tag.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tag/delivery/http/tag_controller.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tag/repository/tag.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tag/usecase/tag_usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/request/tag_request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/response/tag_response.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/request/login_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/request/login_request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/request/user_create_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/request/user_create_request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/response/login_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/login_response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/response/user_create_response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/response/user_response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/web/response/users_response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/role/utils/role_enum.go" beforeDir="false" afterPath="$PROJECT_DIR$/role/utils/role_enum.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/delivery/http/helper/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/helper/jwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/usecase/auth_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/usecase/auth_usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/response/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,9 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Go File" />
         <option value="OpenAPI" />
         <option value="Swagger" />
+        <option value="Go File" />
       </list>
     </option>
   </component>

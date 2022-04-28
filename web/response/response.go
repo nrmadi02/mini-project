@@ -12,6 +12,12 @@ type JSONSuccessResult struct {
 	Data    interface{} `json:"data"`
 }
 
+type JSONSuccessDeleteResult struct {
+	Code    int    `json:"code"`
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+}
+
 type JSONBadRequestResult struct {
 	Code    int    `json:"code"`
 	Status  bool   `json:"status"`
@@ -30,6 +36,14 @@ func SuccessResponse(c echo.Context, code int, status bool, message string, data
 		Status:  status,
 		Message: message,
 		Data:    data,
+	})
+}
+
+func SuccessDeleteResponse(c echo.Context, code int, status bool, message string) error {
+	return c.JSON(code, JSONSuccessDeleteResult{
+		Code:    code,
+		Status:  status,
+		Message: message,
 	})
 }
 
