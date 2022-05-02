@@ -15,6 +15,7 @@ type Tags []Tag
 type TagRepository interface {
 	FindByName(name string) (Tag, error)
 	FindByID(id string) (Tag, error)
+	FindByIDs(ids []string) (Tags, error)
 	FindAllTags() (Tags, error)
 	Delete(tag Tag, id string) error
 	Save(tag Tag) (Tag, error)

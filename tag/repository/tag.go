@@ -25,6 +25,11 @@ func (t tagRepository) FindByID(id string) (tag domain.Tag, err error) {
 	return tag, err
 }
 
+func (t tagRepository) FindByIDs(ids []string) (tags domain.Tags, err error) {
+	err = t.DB.Where("id IN ? ", ids).Find(&tags).Error
+	return tags, err
+}
+
 func (t tagRepository) FindAllTags() (tags domain.Tags, err error) {
 	err = t.DB.Find(&tags).Error
 	return tags, err

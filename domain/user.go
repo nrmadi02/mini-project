@@ -8,14 +8,16 @@ import (
 )
 
 type User struct {
-	ID        uuid.UUID `json:"id" gorm:"PrimaryKey"`
-	Fullname  string    `json:"fullname" gorm:"notnull"`
-	Email     string    `json:"email" gorm:"notnull"`
-	Username  string    `json:"username" gorm:"unique;notnull"`
-	Password  string    `json:"password" gorm:"notnull"`
-	Roles     []Role    `json:"roles" gorm:"many2many:user_roles;"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"UpdatedAt"`
+	ID               uuid.UUID          `json:"id" gorm:"PrimaryKey"`
+	Fullname         string             `json:"fullname" gorm:"notnull"`
+	Email            string             `json:"email" gorm:"notnull"`
+	Username         string             `json:"username" gorm:"unique;notnull"`
+	Password         string             `json:"password" gorm:"notnull"`
+	Roles            []Role             `json:"roles" gorm:"many2many:user_roles;"`
+	Enterprises      []Enterprise       `json:"enterprises" gorm:"foreignKey:UserID;references:ID"`
+	RatingEnterprise []RatingEnterprise `json:"rating_enterprise" gorm:"foreignKey:UserID;references:ID"`
+	CreatedAt        time.Time          `json:"created_at"`
+	UpdatedAt        time.Time          `json:"updated_at"`
 }
 
 type Users []User

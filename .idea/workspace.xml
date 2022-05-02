@@ -5,20 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/domain/tag.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tag/delivery/http/tag_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tag/repository/tag.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tag/usecase/tag_usecase.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/request/tag_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/response/tag_response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/enterprise.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/rating_enterprise.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise/delivery/http/enterprise_controller.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise/repository/enterprise.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise/usecase/enterprise_usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rating/repository/rating.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rating/usecase/rating_usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/request/enterprise_request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/response/enterprise_response.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/tag.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/tag.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/delivery/http/tag_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/tag/delivery/http/tag_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/repository/tag.go" beforeDir="false" afterPath="$PROJECT_DIR$/tag/repository/tag.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/admin_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/auth_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/user_controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/response/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/response/user_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/user_response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,22 +78,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "configurable..is.expanded": "false",
-    "configurable.GoLibrariesConfigurable.is.expanded": "true",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/nrmadi02/Documents/Project/mini-project",
-    "settings.editor.selected.configurable": "com.goide.configuration.GoLibrariesConfigurableProvider"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;configurable..is.expanded&quot;: &quot;false&quot;,
+    &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/nrmadi02/Documents/Project/mini-project&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.goide.configuration.GoLibrariesConfigurableProvider&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />

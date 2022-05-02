@@ -29,26 +29,15 @@ func NewTagController(au domain.AuthUsecase, tu domain.TagUsecase) TagController
 
 // GetTagsList godoc
 // @Summary Get list tags
-// @Description Get list tags can access only admin
+// @Description Get list tags
 // @Tags Tag
 // @accept json
 // @Produce json
 // @Router /tags [get]
 // @Success 200 {object} response.JSONSuccessResult{data=[]response.TagsListResponse}
 // @Failure 400 {object} response.JSONBadRequestResult{}
-// @Failure 401 {object} response.JSONUnauthorizedResult{}
 // @Security JWT
 func (t tagController) GetTagsList(c echo.Context) error {
-	jwtBearer := c.Get("user").(*jwt.Token)
-	claims := jwtBearer.Claims.(jwt.MapClaims)
-
-	isAdmin, err := t.authUsecase.CheckIfUserIsAdmin(claims["UserID"].(string))
-	if err != nil {
-		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-	}
-	if !isAdmin {
-		return response.FailResponse(c, http.StatusUnauthorized, false, "only access admin")
-	}
 
 	tags, err := t.tagUsecase.GetAllTags()
 	if err != nil {

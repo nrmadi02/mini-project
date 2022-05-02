@@ -57,10 +57,12 @@ func (a adminController) GetUserList(c echo.Context) error {
 	var res []response.UsersListResponse
 	for _, foundUser := range foundUsers {
 		res = append(res, response.UsersListResponse{
-			ID:       foundUser.ID,
-			Email:    foundUser.Email,
-			Fullname: foundUser.Fullname,
-			Username: foundUser.Username,
+			ID:        foundUser.ID,
+			Email:     foundUser.Email,
+			Fullname:  foundUser.Fullname,
+			Username:  foundUser.Username,
+			CreatedAt: foundUser.CreatedAt,
+			UpdatedAt: foundUser.UpdatedAt,
 		})
 	}
 

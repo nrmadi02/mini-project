@@ -2,6 +2,11 @@ package router
 
 import (
 	"github.com/labstack/echo/v4"
+	http3 "github.com/nrmadi02/mini-project/enterprise/delivery/http"
+	repository4 "github.com/nrmadi02/mini-project/enterprise/repository"
+	usecase3 "github.com/nrmadi02/mini-project/enterprise/usecase"
+	repository5 "github.com/nrmadi02/mini-project/rating/repository"
+	usecase4 "github.com/nrmadi02/mini-project/rating/usecase"
 	repository2 "github.com/nrmadi02/mini-project/role/repository"
 	http2 "github.com/nrmadi02/mini-project/tag/delivery/http"
 	repository3 "github.com/nrmadi02/mini-project/tag/repository"
@@ -19,13 +24,20 @@ func SetupRouter(c *echo.Echo, db *gorm.DB) {
 	userRepository := repository.NewUserRepository(db)
 	roleRepository := repository2.NewRoleRepository(db)
 	tagRepository := repository3.NewTagRepository(db)
+	enterpriseRepository := repository4.NewEnterpriseRepository(db)
+	ratingRepository := repository5.NewRatingRepository(db)
+
 	authUsecase := usecase.NewAuthUsecase(userRepository, roleRepository)
 	userUsecase := usecase.NewUserUsecase(userRepository, authUsecase)
 	tagUsecase := usecase2.NewTagUsecase(tagRepository)
+	enterpriseUsecase := usecase3.NewEnterpriseUsecase(enterpriseRepository, tagRepository, userRepository)
+	ratingUsecase := usecase4.NewRatingUsecase(userRepository, enterpriseRepository, ratingRepository)
+
 	authController := http.NewAuthController(authUsecase)
 	userController := http.NewUserController(authUsecase)
 	adminController := http.NewAdminController(authUsecase, userUsecase)
 	tagController := http2.NewTagController(authUsecase, tagUsecase)
+	enterpriseController := http3.NewEnterpriseController(authUsecase, enterpriseUsecase, ratingUsecase)
 
 	// Auth Endpoints (User)
 	c.POST("/api/v1/register", authController.Register)
@@ -39,4 +51,15 @@ func SetupRouter(c *echo.Echo, db *gorm.DB) {
 	c.GET("/api/v1/tags", tagController.GetTagsList, authMiddleware)
 	c.DELETE("/api/v1/tag/:id", tagController.DeleteTag, authMiddleware)
 	c.POST("/api/v1/tag", tagController.CreateTag, authMiddleware)
+
+	//enterprise endpoints
+	c.POST("/api/v1/enterprise", enterpriseController.CreateNewEnterprise, authMiddleware)
+	c.PUT("/api/v1/enterprise/:id/status", enterpriseController.UpdateStatusEnterprise, authMiddleware)
+	c.GET("/api/v1/enterprises/:status", enterpriseController.GetEnterpriseByStatus, authMiddleware)
+	c.PUT("/api/v1/enterprise/:id", enterpriseController.UpdateEnterpriseByID, authMiddleware)
+	c.GET("/api/v1/enterprises", enterpriseController.GetAllEnterprises, authMiddleware)
+	c.DELETE("/api/v1/enterprise/:id", enterpriseController.DeleteEnterpriseByID, authMiddleware)
+	c.GET("/api/v1/enterprise/:id", enterpriseController.GetDetailEnterpriseByID, authMiddleware)
+	c.GET("/api/v1/enterprise/:id/distance", enterpriseController.GetDistance, authMiddleware)
+	c.POST("/api/v1/enterprise/:id/rating", enterpriseController.AddNewRanting, authMiddleware)
 }

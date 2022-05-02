@@ -49,7 +49,7 @@ func SuccessDeleteResponse(c echo.Context, code int, status bool, message string
 
 func FailResponse(c echo.Context, code int, status bool, message string) error {
 	if code == http.StatusUnauthorized {
-		return c.JSON(http.StatusOK, JSONUnauthorizedResult{
+		return c.JSON(http.StatusUnauthorized, JSONUnauthorizedResult{
 			Code:    code,
 			Message: message,
 			Status:  status,
@@ -57,7 +57,15 @@ func FailResponse(c echo.Context, code int, status bool, message string) error {
 	}
 
 	if code == http.StatusBadRequest {
-		return c.JSON(http.StatusOK, JSONBadRequestResult{
+		return c.JSON(http.StatusBadRequest, JSONBadRequestResult{
+			Code:    code,
+			Message: message,
+			Status:  status,
+		})
+	}
+
+	if code == http.StatusNotFound {
+		return c.JSON(http.StatusNotFound, JSONBadRequestResult{
 			Code:    code,
 			Message: message,
 			Status:  status,

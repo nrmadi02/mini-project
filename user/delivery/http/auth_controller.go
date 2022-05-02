@@ -50,10 +50,12 @@ func (a authController) Register(c echo.Context) error {
 	}
 
 	res := response.UserCreateResponse{
-		ID:       createdUser.ID,
-		Email:    createdUser.Email,
-		Fullname: createdUser.Fullname,
-		Username: createdUser.Username,
+		ID:        createdUser.ID,
+		Email:     createdUser.Email,
+		Fullname:  createdUser.Fullname,
+		Username:  createdUser.Username,
+		CreatedAt: createdUser.CreatedAt,
+		UpdatedAt: createdUser.UpdatedAt,
 	}
 
 	return response.SuccessResponse(c, http.StatusCreated, true, "success create new user", res)

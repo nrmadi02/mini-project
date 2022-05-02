@@ -42,10 +42,12 @@ func (u userController) User(c echo.Context) error {
 	}
 
 	res := response.UserDetailResponse{
-		Fullname: details.Fullname,
-		Username: details.Username,
-		Email:    details.Email,
-		ID:       details.ID,
+		Fullname:  details.Fullname,
+		Username:  details.Username,
+		Email:     details.Email,
+		ID:        details.ID,
+		CreatedAt: details.CreatedAt,
+		UpdatedAt: details.UpdatedAt,
 	}
 
 	return response.SuccessResponse(c, http.StatusOK, true, "success get detail user", res)

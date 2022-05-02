@@ -50,7 +50,7 @@ func InitDB() *gorm.DB {
 }
 
 func InitialMigration() {
-	err := DB.AutoMigrate(&domain.User{}, &domain.Role{}, &domain.Tag{})
+	err := DB.AutoMigrate(&domain.User{}, &domain.Role{}, &domain.Tag{}, &domain.Enterprise{}, &domain.RatingEnterprise{})
 
 	if err != nil {
 		panic("could not connect to db")

@@ -7,6 +7,27 @@ definitions:
       name:
         type: string
     type: object
+  request.CreateEnterpriseRequest:
+    properties:
+      address:
+        type: string
+      description:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string
+      name:
+        type: string
+      number_phone:
+        type: string
+      postcode:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
   request.CreateTagRequest:
     properties:
       name:
@@ -89,33 +110,45 @@ definitions:
     type: object
   response.UserCreateResponse:
     properties:
+      created_at:
+        type: string
       email:
         type: string
       fullname:
         type: string
       id:
+        type: string
+      updated_at:
         type: string
       username:
         type: string
     type: object
   response.UserDetailResponse:
     properties:
+      created_at:
+        type: string
       email:
         type: string
       fullname:
         type: string
       id:
+        type: string
+      updated_at:
         type: string
       username:
         type: string
     type: object
   response.UsersListResponse:
     properties:
+      created_at:
+        type: string
       email:
         type: string
       fullname:
         type: string
       id:
+        type: string
+      updated_at:
         type: string
       username:
         type: string
@@ -127,6 +160,309 @@ info:
   title: UMKM applications Documentation
   version: "2.0"
 paths:
+  /enterprise:
+    post:
+      consumes:
+      - application/json
+      description: create new enterprise
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateEnterpriseRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Create new enterprise
+      tags:
+      - Enterprise
+  /enterprise/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete enterprise
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessDeleteResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Delete enterprise by id
+      tags:
+      - Enterprise
+    get:
+      consumes:
+      - application/json
+      description: get detail enterprise
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessDeleteResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get detail by id
+      tags:
+      - Enterprise
+    put:
+      consumes:
+      - application/json
+      description: Update enterprise
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateEnterpriseRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Update enterprise by id
+      tags:
+      - Enterprise
+  /enterprise/{id}/distance:
+    get:
+      consumes:
+      - application/json
+      description: get distance from you to enterprise
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: longitude
+        in: query
+        name: longitude
+        required: true
+        type: string
+      - description: latitude
+        in: query
+        name: latitude
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get distance
+      tags:
+      - Enterprise
+  /enterprise/{id}/rating:
+    post:
+      consumes:
+      - application/json
+      description: add rating enterprise rate 1-5
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: value rate
+        in: query
+        name: value
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Add rating enterprise
+      tags:
+      - Enterprise
+  /enterprise/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: 0 = draft, 1 = publish
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: status
+        enum:
+        - 0
+        - 1
+        in: query
+        name: status
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.JSONUnauthorizedResult'
+      security:
+      - JWT: []
+      summary: Update status enterprise
+      tags:
+      - Enterprise
+  /enterprises:
+    get:
+      consumes:
+      - application/json
+      description: get all list enterprises
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get list enterprises
+      tags:
+      - Enterprise
+  /enterprises/{status}:
+    get:
+      consumes:
+      - application/json
+      description: status draft and publish
+      parameters:
+      - description: status
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get list enterprise by status
+      tags:
+      - Enterprise
   /login:
     post:
       consumes:
@@ -265,7 +601,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get list tags can access only admin
+      description: Get list tags
       produces:
       - application/json
       responses:
@@ -284,10 +620,6 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/response.JSONBadRequestResult'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/response.JSONUnauthorizedResult'
       security:
       - JWT: []
       summary: Get list tags
