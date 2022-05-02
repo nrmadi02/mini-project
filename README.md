@@ -1,1 +1,5 @@
-# go_ci-cd
+# Mini Project Management UMKM
+
+`Nur Ahmadi`
+
+`Kelas A`
