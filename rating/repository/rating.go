@@ -31,7 +31,7 @@ func (r ratingRepository) AddRating(rating domain.RatingEnterprise) (domain.Rati
 }
 
 func (r ratingRepository) UpdateRating(id string, userid string, value int) (rating domain.RatingEnterprise, err error) {
-	err = r.DB.Model(&rating).Where("enterprise_id = ? AND user_id = ? ", id, userid).Update("rating = ?", value).Error
+	err = r.DB.Model(&rating).Where("enterprise_id = ? AND user_id = ? ", id, userid).Update("rating", value).Error
 	return rating, err
 }
 

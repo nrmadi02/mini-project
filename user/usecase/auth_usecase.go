@@ -12,14 +12,18 @@ import (
 )
 
 type authUsecase struct {
-	userRepository domain.UserRepository
-	roleRepository domain.RoleRepository
+	userRepository       domain.UserRepository
+	roleRepository       domain.RoleRepository
+	favoriteRepository   domain.FavoriteRepository
+	enterpriseRepository domain.EnterpriseRepository
 }
 
-func NewAuthUsecase(ur domain.UserRepository, rr domain.RoleRepository) domain.AuthUsecase {
+func NewAuthUsecase(ur domain.UserRepository, rr domain.RoleRepository, fr domain.FavoriteRepository, er domain.EnterpriseRepository) domain.AuthUsecase {
 	return authUsecase{
-		userRepository: ur,
-		roleRepository: rr,
+		userRepository:       ur,
+		roleRepository:       rr,
+		favoriteRepository:   fr,
+		enterpriseRepository: er,
 	}
 }
 
@@ -74,25 +78,35 @@ func (a authUsecase) Register(request request2.UserCreateRequest) (domain.User, 
 		Password: string(password),
 		Roles:    []domain.Role{clientRole},
 	}
+	favorite := domain.Favorite{
+		ID:     uuid.NewV4(),
+		UserID: user.ID,
+	}
 
 	user, err = a.userRepository.Save(user)
 	if err != nil {
 		return domain.User{}, err
 	}
+	if err != nil {
+		return domain.User{}, err
+	}
+	_, _ = a.favoriteRepository.Add(favorite)
 
 	return user, nil
 
 }
 
-func (a authUsecase) GetUserDetails(id string) (domain.User, error) {
+func (a authUsecase) GetUserDetails(id string) (domain.User, domain.Favorite, domain.Enterprises, error) {
 	var user domain.User
 
 	user, err := a.userRepository.FindUserById(id)
 	if err != nil {
-		return domain.User{}, err
+		return domain.User{}, domain.Favorite{}, nil, err
 	}
+	favorite, _ := a.favoriteRepository.FindByUserID(user.ID.String())
+	enterprises, _ := a.enterpriseRepository.FindByUserID(user.ID.String())
 
-	return user, nil
+	return user, favorite, enterprises, nil
 }
 
 func (a authUsecase) CheckIfUserIsAdmin(id string) (bool, error) {

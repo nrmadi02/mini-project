@@ -72,3 +72,13 @@ func (e enterpriseRepository) Delete(enterprise domain.Enterprise) error {
 	err = e.DB.Where("id = ? ", enterprise.ID).Delete(&enterprise).Error
 	return err
 }
+
+func (e enterpriseRepository) FindByIDs(ids []string) (enterprises domain.Enterprises, err error) {
+	err = e.DB.Preload("Tags").Where("id IN ? ", ids).Find(&enterprises).Error
+	return enterprises, err
+}
+
+func (e enterpriseRepository) FindByUserID(id string) (enterprises domain.Enterprises, err error) {
+	err = e.DB.Preload("Tags").Where("user_id = ? ", id).Find(&enterprises).Error
+	return enterprises, err
+}

@@ -5,7 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Favorite/delivery/http/favorite_controller.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Favorite/repository/favorite.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Favorite/usecase/favorite_usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/favorite.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/enterprise.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise/delivery/http/enterprise_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise/delivery/http/enterprise_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise/repository/enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise/repository/enterprise.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rating/repository/rating.go" beforeDir="false" afterPath="$PROJECT_DIR$/rating/repository/rating.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/delivery/http/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/usecase/auth_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/usecase/auth_usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/response/user_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/response/user_response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -361,6 +361,115 @@ paths:
       summary: Add rating enterprise
       tags:
       - Enterprise
+  /enterprise/{id}/rating/user/{userid}:
+    delete:
+      consumes:
+      - application/json
+      description: remove rating user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessDeleteResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Remove rating
+      tags:
+      - Enterprise
+    get:
+      consumes:
+      - application/json
+      description: cek rating user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Cek rating
+      tags:
+      - Enterprise
+    put:
+      consumes:
+      - application/json
+      description: update rating
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userid
+        required: true
+        type: string
+      - description: value
+        in: query
+        name: value
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Update rating
+      tags:
+      - Enterprise
   /enterprise/{id}/status:
     put:
       consumes:
@@ -463,6 +572,112 @@ paths:
       summary: Get list enterprise by status
       tags:
       - Enterprise
+  /favorite:
+    delete:
+      consumes:
+      - application/json
+      description: remove favorite enterprise
+      parameters:
+      - description: enterprise id
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Remove Favorite
+      tags:
+      - Favorite
+    get:
+      consumes:
+      - application/json
+      description: get favorite enterprise
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get Favorite
+      tags:
+      - Favorite
+    post:
+      consumes:
+      - application/json
+      description: add favorite enterprise
+      parameters:
+      - description: enterprise id
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Add Favorite
+      tags:
+      - Favorite
   /login:
     post:
       consumes:

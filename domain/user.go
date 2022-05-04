@@ -16,6 +16,7 @@ type User struct {
 	Roles            []Role             `json:"roles" gorm:"many2many:user_roles;"`
 	Enterprises      []Enterprise       `json:"enterprises" gorm:"foreignKey:UserID;references:ID"`
 	RatingEnterprise []RatingEnterprise `json:"rating_enterprise" gorm:"foreignKey:UserID;references:ID"`
+	Favorite         Favorite           `json:"favorite" gorm:"foreignKey:UserID;references:ID"`
 	CreatedAt        time.Time          `json:"created_at"`
 	UpdatedAt        time.Time          `json:"updated_at"`
 }
@@ -36,6 +37,6 @@ type UserUsecase interface {
 type AuthUsecase interface {
 	Login(request request2.LoginRequest) (response.SuccessLogin, error)
 	Register(request request2.UserCreateRequest) (User, error)
-	GetUserDetails(id string) (User, error)
+	GetUserDetails(id string) (User, Favorite, Enterprises, error)
 	CheckIfUserIsAdmin(id string) (bool, error)
 }

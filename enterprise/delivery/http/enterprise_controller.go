@@ -7,6 +7,7 @@ import (
 	"github.com/nrmadi02/mini-project/domain"
 	"github.com/nrmadi02/mini-project/web/request"
 	"github.com/nrmadi02/mini-project/web/response"
+	uuid "github.com/satori/go.uuid"
 	"io"
 	"io/ioutil"
 	"math"
@@ -27,6 +28,9 @@ type EnterpriseController interface {
 
 	//rating enterprise
 	AddNewRanting(c echo.Context) error
+	CekRatingUser(c echo.Context) error
+	DeleteRatingUser(c echo.Context) error
+	UpdateRating(c echo.Context) error
 }
 
 type enterpriseController struct {
@@ -152,7 +156,17 @@ func (e enterpriseController) GetEnterpriseByStatus(c echo.Context) error {
 	var res []response.GetListByStatusResponse
 
 	for _, enterprise := range resEnterprises {
-		details, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
+		details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
+		rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
+		if err != nil {
+			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+		}
+		var currRat int
+		for _, arr := range rantings {
+			currRat += arr.Rating
+		}
+		var rateAvr float64
+		rateAvr = float64(currRat) / float64(len(rantings))
 		res = append(res, response.GetListByStatusResponse{
 			ID:          enterprise.ID,
 			Name:        enterprise.Name,
@@ -167,6 +181,7 @@ func (e enterpriseController) GetEnterpriseByStatus(c echo.Context) error {
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,
 			Longitude:   enterprise.Longitude,
+			Rating:      math.Round(rateAvr*100) / 100,
 			Owner: response.UserDetailResponse{
 				ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
 			},
@@ -224,7 +239,43 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
-	return response.SuccessResponse(c, http.StatusOK, true, "success get list enterprises", enterprises)
+
+	var res []response.GetListByStatusResponse
+
+	for _, enterprise := range enterprises {
+		details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
+		rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
+		if err != nil {
+			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+		}
+		var currRat int
+		for _, arr := range rantings {
+			currRat += arr.Rating
+		}
+		var rateAvr float64
+		rateAvr = float64(currRat) / float64(len(rantings))
+		res = append(res, response.GetListByStatusResponse{
+			ID:          enterprise.ID,
+			Name:        enterprise.Name,
+			NumberPhone: enterprise.NumberPhone,
+			UserID:      enterprise.UserID,
+			Address:     enterprise.Address,
+			Postcode:    enterprise.Postcode,
+			Description: enterprise.Description,
+			Status:      enterprise.Status,
+			Tags:        enterprise.Tags,
+			UpdatedAt:   enterprise.UpdatedAt,
+			CreatedAt:   enterprise.CreatedAt,
+			Latitude:    enterprise.Latitude,
+			Longitude:   enterprise.Longitude,
+			Rating:      math.Round(rateAvr*100) / 100,
+			Owner: response.UserDetailResponse{
+				ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
+			},
+		})
+	}
+
+	return response.SuccessResponse(c, http.StatusOK, true, "success get list enterprises", res)
 }
 
 // DeleteEnterpriseByID godoc
@@ -255,7 +306,7 @@ func (e enterpriseController) DeleteEnterpriseByID(c echo.Context) error {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
 
-	if isAdmin || enterprise.UserID.String() != userID {
+	if isAdmin || enterprise.UserID.String() == userID {
 		err := e.enterpriseUsecase.DeleteEnterpriseByID(id)
 		if err != nil {
 			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
@@ -297,7 +348,7 @@ func (e enterpriseController) GetDetailEnterpriseByID(c echo.Context) error {
 	var rateAvr float64
 	rateAvr = float64(currRat) / float64(len(rantings))
 
-	details, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
+	details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
 	res := response.GetListByStatusResponse{
 		ID:          enterprise.ID,
 		Name:        enterprise.Name,
@@ -404,4 +455,141 @@ func (e enterpriseController) AddNewRanting(c echo.Context) error {
 		"rating":         ranting,
 		"rating_average": math.Round(rateAvr*100) / 100,
 	})
+}
+
+// CekRatingUser godoc
+// @Summary Cek rating
+// @Description cek rating user
+// @Tags Enterprise
+// @accept json
+// @Produce json
+// @Router /enterprise/{id}/rating/user/{userid} [get]
+// @param id path string true "id"
+// @param userid path string true "user id"
+// @Success 201 {object} response.JSONSuccessResult{data=interface{}}
+// @Failure 400 {object} response.JSONBadRequestResult{}
+// @Security JWT
+func (e enterpriseController) CekRatingUser(c echo.Context) error {
+	id := c.Param("id")
+	userid := c.Param("userid")
+
+	rating, err := e.ratingUsecase.FindRating(id, userid)
+	if err != nil {
+		return response.FailResponse(c, http.StatusNotFound, false, err.Error())
+	}
+	var isRating bool
+	var dataRating interface{}
+	if rating.Rating != 0 {
+		isRating = true
+		dataRating = rating
+	} else {
+		isRating = false
+		dataRating = nil
+	}
+
+	return response.SuccessResponse(c, http.StatusOK, true, "success cek rating user", map[string]interface{}{
+		"status_rating": isRating,
+		"rating_data":   dataRating,
+	})
+}
+
+// DeleteRatingUser godoc
+// @Summary Remove rating
+// @Description remove rating user
+// @Tags Enterprise
+// @accept json
+// @Produce json
+// @Router /enterprise/{id}/rating/user/{userid} [delete]
+// @param id path string true "id"
+// @param userid path string true "user id"
+// @Success 200 {object} response.JSONSuccessDeleteResult{}
+// @Failure 400 {object} response.JSONBadRequestResult{}
+// @Security JWT
+func (e enterpriseController) DeleteRatingUser(c echo.Context) error {
+	id := c.Param("id")
+	userid := c.Param("userid")
+
+	rating, err := e.ratingUsecase.FindRating(id, userid)
+	if err != nil {
+		return response.FailResponse(c, http.StatusNotFound, false, err.Error())
+	}
+	if rating.ID == uuid.FromStringOrNil("") {
+		return response.FailResponse(c, http.StatusNotFound, false, err.Error())
+	}
+	jwtBearer := c.Get("user").(*jwt.Token)
+	claims := jwtBearer.Claims.(jwt.MapClaims)
+	isAdmin, err := e.authUsecase.CheckIfUserIsAdmin(claims["UserID"].(string))
+	if err != nil {
+		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+	}
+
+	if isAdmin || rating.UserID.String() == claims["UserID"].(string) {
+		err = e.ratingUsecase.DeleteRating(id, userid)
+		if err != nil {
+			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+		}
+
+		return response.SuccessDeleteResponse(c, http.StatusOK, true, "success remove rating")
+	}
+
+	return response.FailResponse(c, http.StatusBadRequest, false, "not current user")
+}
+
+// UpdateRating godoc
+// @Summary Update rating
+// @Description update rating
+// @Tags Enterprise
+// @accept json
+// @Produce json
+// @Router /enterprise/{id}/rating/user/{userid} [put]
+// @param id path string true "id"
+// @param userid path string true "user id"
+// @param value query int true "value"
+// @Success 201 {object} response.JSONSuccessResult{data=interface{}}
+// @Failure 400 {object} response.JSONBadRequestResult{}
+// @Security JWT
+func (e enterpriseController) UpdateRating(c echo.Context) error {
+	id := c.Param("id")
+	userid := c.Param("userid")
+	value, _ := strconv.Atoi(c.QueryParam("value"))
+
+	rating, err := e.ratingUsecase.FindRating(id, userid)
+	if err != nil {
+		return response.FailResponse(c, http.StatusNotFound, false, err.Error())
+	}
+	if rating.ID == uuid.FromStringOrNil("") {
+		return response.FailResponse(c, http.StatusNotFound, false, err.Error())
+	}
+	jwtBearer := c.Get("user").(*jwt.Token)
+	claims := jwtBearer.Claims.(jwt.MapClaims)
+	isAdmin, err := e.authUsecase.CheckIfUserIsAdmin(claims["UserID"].(string))
+	if err != nil {
+		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+	}
+
+	if isAdmin || rating.UserID.String() == claims["UserID"].(string) {
+		_, err := e.ratingUsecase.UpdateRating(id, userid, value)
+		if err != nil {
+			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+		}
+
+		resRating, err := e.ratingUsecase.FindRating(id, userid)
+		rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(id)
+		if err != nil {
+			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
+		}
+		var currRat int
+		for _, arr := range rantings {
+			currRat += arr.Rating
+		}
+		var rateAvr float64
+		rateAvr = float64(currRat) / float64(len(rantings))
+
+		return response.SuccessResponse(c, http.StatusOK, true, "success update rating", map[string]interface{}{
+			"rating":         resRating,
+			"rating_average": math.Round(rateAvr*100) / 100,
+		})
+	}
+
+	return response.FailResponse(c, http.StatusBadRequest, false, "not current user")
 }

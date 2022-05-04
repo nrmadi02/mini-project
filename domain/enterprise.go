@@ -27,7 +27,9 @@ type Enterprises []Enterprise
 
 type EnterpriseRepository interface {
 	FindByID(id string) (Enterprise, error)
+	FindByUserID(id string) (Enterprises, error)
 	FindAll() (Enterprises, error)
+	FindByIDs(ids []string) (Enterprises, error)
 	FindByStatusDraft() (Enterprises, error)
 	FindByStatusPublish() (Enterprises, error)
 	UpdateStatusByID(id string, status int) (Enterprise, error)
