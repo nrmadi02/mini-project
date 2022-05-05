@@ -231,11 +231,13 @@ func (e enterpriseController) UpdateEnterpriseByID(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprises [get]
+// @Param search query string false "search"
 // @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Security JWT
 func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
-	enterprises, err := e.enterpriseUsecase.GetListAllEnterprise()
+	search := c.QueryParam("search")
+	enterprises, err := e.enterpriseUsecase.GetListAllEnterprise(search)
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}

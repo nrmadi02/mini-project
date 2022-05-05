@@ -121,8 +121,8 @@ func (e enterpriseUsecase) UpdateEnterpriseByID(id string, userid string, reques
 	return res, err
 }
 
-func (e enterpriseUsecase) GetListAllEnterprise() (domain.Enterprises, error) {
-	enterprises, err := e.enterpriseRepository.FindAll()
+func (e enterpriseUsecase) GetListAllEnterprise(search string) (domain.Enterprises, error) {
+	enterprises, err := e.enterpriseRepository.FindAll(search)
 	if err != nil {
 		return domain.Enterprises{}, err
 	}

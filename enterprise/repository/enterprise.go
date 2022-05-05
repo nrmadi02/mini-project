@@ -15,8 +15,12 @@ func NewEnterpriseRepository(db *gorm.DB) domain.EnterpriseRepository {
 	}
 }
 
-func (e enterpriseRepository) FindAll() (enterprises domain.Enterprises, err error) {
-	err = e.DB.Preload("Tags").Find(&enterprises).Error
+func (e enterpriseRepository) FindAll(search string) (enterprises domain.Enterprises, err error) {
+	if search != "" {
+		err = e.DB.Preload("Tags").Where("name LIKE ?", "%"+search+"%").Find(&enterprises).Error
+	} else {
+		err = e.DB.Preload("Tags").Find(&enterprises).Error
+	}
 	return enterprises, err
 }
 

@@ -28,7 +28,7 @@ type Enterprises []Enterprise
 type EnterpriseRepository interface {
 	FindByID(id string) (Enterprise, error)
 	FindByUserID(id string) (Enterprises, error)
-	FindAll() (Enterprises, error)
+	FindAll(search string) (Enterprises, error)
 	FindByIDs(ids []string) (Enterprises, error)
 	FindByStatusDraft() (Enterprises, error)
 	FindByStatusPublish() (Enterprises, error)
@@ -44,6 +44,6 @@ type EnterpriseUsecase interface {
 	UpdateEnterpriseByID(id string, userid string, request request2.CreateEnterpriseRequest) (Enterprise, error)
 	GetDetailEnterpriseByID(id string) (Enterprise, error)
 	GetListEnterpriseByStatus(status int) (Enterprises, error)
-	GetListAllEnterprise() (Enterprises, error)
+	GetListAllEnterprise(search string) (Enterprises, error)
 	DeleteEnterpriseByID(id string) error
 }
