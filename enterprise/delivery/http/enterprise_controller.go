@@ -89,7 +89,7 @@ func (e enterpriseController) CreateNewEnterprise(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/status [put]
-// @Param id path string true "id"
+// @Param id path string true "enterprise id"
 // @Param status query int true "status" Enums(0, 1)
 // @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
@@ -198,7 +198,7 @@ func (e enterpriseController) GetEnterpriseByStatus(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id} [put]
-// @param id path string true "id"
+// @param id path string true "enterprise id"
 // @param data body request.CreateEnterpriseRequest true "required"
 // @Success 201 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
@@ -231,13 +231,23 @@ func (e enterpriseController) UpdateEnterpriseByID(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprises [get]
-// @Param search query string false "search"
+// @Param search query string false "search by name"
+// @Param page query int false "page"
+// @Param length query int false "length"
 // @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Security JWT
 func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 	search := c.QueryParam("search")
-	enterprises, err := e.enterpriseUsecase.GetListAllEnterprise(search)
+	length, _ := strconv.Atoi(c.QueryParam("length"))
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	enterprises, totalData, err := e.enterpriseUsecase.GetListAllEnterprise(search, page, length)
+	var pageCount int
+	if len(enterprises) != 0 {
+		pageCount = int(math.Ceil(float64(totalData / len(enterprises))))
+	} else {
+		pageCount = int(math.Ceil(float64(totalData / length)))
+	}
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
@@ -277,7 +287,21 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 		})
 	}
 
-	return response.SuccessResponse(c, http.StatusOK, true, "success get list enterprises", res)
+	if page == 0 {
+		page = 1
+	}
+	metadata := struct {
+		Length    int `json:"length"`
+		Page      int `json:"page"`
+		PageCount int `json:"page_count"`
+		TotalData int `json:"total_data"`
+	}{
+		Length:    len(enterprises),
+		Page:      page,
+		PageCount: pageCount,
+		TotalData: totalData,
+	}
+	return response.SuccessListResponse(c, http.StatusOK, true, "success get list enterprises", res, metadata)
 }
 
 // DeleteEnterpriseByID godoc
@@ -287,7 +311,7 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id} [delete]
-// @Param id path string true "id"
+// @Param id path string true "enterprise id"
 // @Success 200 {object} response.JSONSuccessDeleteResult{}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 401 {object} response.JSONUnauthorizedResult{}
@@ -327,7 +351,7 @@ func (e enterpriseController) DeleteEnterpriseByID(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id} [get]
-// @Param id path string true "id"
+// @Param id path string true "enterprise id"
 // @Success 200 {object} response.JSONSuccessDeleteResult{}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Security JWT
@@ -381,7 +405,7 @@ func (e enterpriseController) GetDetailEnterpriseByID(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/distance [get]
-// @Param id path string true "id"
+// @Param id path string true "enterprise id"
 // @Param longitude query string true "longitude"
 // @Param latitude query string true "latitude"
 // @Success 200 {object} response.JSONSuccessResult{}
@@ -428,7 +452,7 @@ func (e enterpriseController) GetDistance(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating [post]
-// @param id path string true "id"
+// @param id path string true "enterprise id"
 // @Param value query int true "value rate"
 // @Success 201 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
@@ -439,6 +463,12 @@ func (e enterpriseController) AddNewRanting(c echo.Context) error {
 	claims := jwtBearer.Claims.(jwt.MapClaims)
 	userid := claims["UserID"].(string)
 	value, _ := strconv.Atoi(c.QueryParam("value"))
+
+	isRating, _ := e.ratingUsecase.FindRating(enterpriseid, userid)
+	if isRating.ID != uuid.FromStringOrNil("") {
+		return response.FailResponse(c, http.StatusNotFound, false, "remove old rating")
+	}
+
 	ranting, err := e.ratingUsecase.AddNewRanting(enterpriseid, userid, value)
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
@@ -466,7 +496,7 @@ func (e enterpriseController) AddNewRanting(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [get]
-// @param id path string true "id"
+// @param id path string true "enterprise id"
 // @param userid path string true "user id"
 // @Success 201 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
@@ -502,7 +532,7 @@ func (e enterpriseController) CekRatingUser(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [delete]
-// @param id path string true "id"
+// @param id path string true "enterprise id"
 // @param userid path string true "user id"
 // @Success 200 {object} response.JSONSuccessDeleteResult{}
 // @Failure 400 {object} response.JSONBadRequestResult{}
@@ -544,7 +574,7 @@ func (e enterpriseController) DeleteRatingUser(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [put]
-// @param id path string true "id"
+// @param id path string true "enterprise id"
 // @param userid path string true "user id"
 // @param value query int true "value"
 // @Success 201 {object} response.JSONSuccessResult{data=interface{}}

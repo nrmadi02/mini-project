@@ -2,8 +2,10 @@ package config
 
 import (
 	"fmt"
+	"github.com/nrmadi02/mini-project/app/utils"
 	"github.com/nrmadi02/mini-project/db/seeds"
 	"github.com/nrmadi02/mini-project/domain"
+	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
@@ -38,8 +40,14 @@ func InitDB() *gorm.DB {
 		config.DB_Name,
 	)
 
-	var err error
-	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	cm, err := ConnectMongo()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{
+		Logger: utils.SlowLoggerGorm(cm),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -50,7 +58,7 @@ func InitDB() *gorm.DB {
 }
 
 func InitialMigration() {
-	err := DB.AutoMigrate(&domain.User{}, &domain.Role{}, &domain.Tag{}, &domain.Enterprise{}, &domain.RatingEnterprise{}, &domain.Favorite{})
+	err := DB.AutoMigrate(&domain.User{}, &domain.Role{}, &domain.Tag{}, &domain.Enterprise{}, &domain.RatingEnterprise{}, &domain.Favorite{}, &domain.Review{})
 
 	if err != nil {
 		panic("could not connect to db")

@@ -19,8 +19,8 @@ type UserDetailResponse struct {
 	Email       string        `json:"email"`
 	Fullname    string        `json:"fullname"`
 	Username    string        `json:"username"`
-	Favorite    interface{}   `json:"favorite"`
-	Enterprises []interface{} `json:"enterprises"`
+	Favorite    interface{}   `json:"favorite,omitempty"`
+	Enterprises []interface{} `json:"enterprises,omitempty"`
 	CreatedAt   time.Time     `json:"created_at"`
 	UpdatedAt   time.Time     `json:"updated_at"`
 }

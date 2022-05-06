@@ -30,12 +30,30 @@ type JSONUnauthorizedResult struct {
 	Message string `json:"message"`
 }
 
+type JSONSuccessListResult struct {
+	Code     int         `json:"code"`
+	Status   bool        `json:"status"`
+	Message  string      `json:"message"`
+	Data     interface{} `json:"data"`
+	Metadata interface{} `json:"metadata"`
+}
+
 func SuccessResponse(c echo.Context, code int, status bool, message string, data interface{}) error {
 	return c.JSON(code, JSONSuccessResult{
 		Code:    code,
 		Status:  status,
 		Message: message,
 		Data:    data,
+	})
+}
+
+func SuccessListResponse(c echo.Context, code int, status bool, message string, data interface{}, metadata interface{}) error {
+	return c.JSON(code, JSONSuccessListResult{
+		Code:     code,
+		Status:   status,
+		Message:  message,
+		Data:     data,
+		Metadata: metadata,
 	})
 }
 

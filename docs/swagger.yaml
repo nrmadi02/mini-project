@@ -7,6 +7,11 @@ definitions:
       name:
         type: string
     type: object
+  http.ReviewValue:
+    properties:
+      review:
+        type: string
+    type: object
   request.CreateEnterpriseRequest:
     properties:
       address:
@@ -129,6 +134,10 @@ definitions:
         type: string
       email:
         type: string
+      enterprises:
+        items: {}
+        type: array
+      favorite: {}
       fullname:
         type: string
       id:
@@ -199,7 +208,7 @@ paths:
       - application/json
       description: delete enterprise
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -229,7 +238,7 @@ paths:
       - application/json
       description: get detail enterprise
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -255,7 +264,7 @@ paths:
       - application/json
       description: Update enterprise
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -293,7 +302,7 @@ paths:
       - application/json
       description: get distance from you to enterprise
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -330,7 +339,7 @@ paths:
       - application/json
       description: add rating enterprise rate 1-5
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -367,7 +376,7 @@ paths:
       - application/json
       description: remove rating user
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -398,7 +407,7 @@ paths:
       - application/json
       description: cek rating user
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -434,7 +443,7 @@ paths:
       - application/json
       description: update rating
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -476,7 +485,7 @@ paths:
       - application/json
       description: 0 = draft, 1 = publish
       parameters:
-      - description: id
+      - description: enterprise id
         in: path
         name: id
         required: true
@@ -519,6 +528,19 @@ paths:
       consumes:
       - application/json
       description: get all list enterprises
+      parameters:
+      - description: search by name
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: length
+        in: query
+        name: length
+        type: integer
       produces:
       - application/json
       responses:
@@ -608,9 +630,9 @@ paths:
             $ref: '#/definitions/response.JSONBadRequestResult'
       security:
       - JWT: []
-      summary: Remove Favorite
+      summary: Remove favorite
       tags:
-      - Favorite
+      - favorite
     get:
       consumes:
       - application/json
@@ -637,9 +659,9 @@ paths:
             $ref: '#/definitions/response.JSONBadRequestResult'
       security:
       - JWT: []
-      summary: Get Favorite
+      summary: Get favorite
       tags:
-      - Favorite
+      - favorite
     post:
       consumes:
       - application/json
@@ -675,9 +697,9 @@ paths:
             $ref: '#/definitions/response.JSONBadRequestResult'
       security:
       - JWT: []
-      summary: Add Favorite
+      summary: Add favorite
       tags:
-      - Favorite
+      - favorite
   /login:
     post:
       consumes:
@@ -744,6 +766,205 @@ paths:
       summary: Register new user
       tags:
       - Auth
+  /review/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get detail review enterprise
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get Detail Review
+      tags:
+      - Review
+  /review/enterprise/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete review enterprise
+      parameters:
+      - description: enterprise id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: query
+        name: userid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JSONSuccessDeleteResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Delete Review
+      tags:
+      - Review
+    get:
+      consumes:
+      - application/json
+      description: get list review enterprise
+      parameters:
+      - description: enterprise id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Get List Review
+      tags:
+      - Review
+    post:
+      consumes:
+      - application/json
+      description: add review enterprise
+      parameters:
+      - description: enterprise id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: query
+        name: userid
+        required: true
+        type: string
+      - description: value review
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/http.ReviewValue'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Add Review
+      tags:
+      - Review
+    put:
+      consumes:
+      - application/json
+      description: update review enterprise
+      parameters:
+      - description: enterprise id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user id
+        in: query
+        name: userid
+        required: true
+        type: string
+      - description: value review
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/http.ReviewValue'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.JSONBadRequestResult'
+      security:
+      - JWT: []
+      summary: Update Review
+      tags:
+      - Review
   /tag:
     post:
       consumes:
@@ -787,7 +1008,7 @@ paths:
       - application/json
       description: delete tag can access only admin
       parameters:
-      - description: id tag
+      - description: tag id
         in: path
         name: id
         required: true

@@ -32,9 +32,9 @@ func NewFavoriteController(fu domain.FavoriteUsecase, au domain.AuthUsecase, ru 
 }
 
 // AddFavoriteEnterprise godoc
-// @Summary Add Favorite
+// @Summary Add favorite
 // @Description add favorite enterprise
-// @Tags Favorite
+// @Tags favorite
 // @accept json
 // @Produce json
 // @Router /favorite [post]
@@ -64,9 +64,9 @@ func (f favoriteController) AddFavoriteEnterprise(c echo.Context) error {
 }
 
 // RemoveFavoriteEnterprise godoc
-// @Summary Remove Favorite
+// @Summary Remove favorite
 // @Description remove favorite enterprise
-// @Tags Favorite
+// @Tags favorite
 // @accept json
 // @Produce json
 // @Router /favorite [delete]
@@ -96,9 +96,9 @@ func (f favoriteController) RemoveFavoriteEnterprise(c echo.Context) error {
 }
 
 // GetDetailFavoriteEnterprise godoc
-// @Summary Get Favorite
+// @Summary Get favorite
 // @Description get favorite enterprise
-// @Tags Favorite
+// @Tags favorite
 // @accept json
 // @Produce json
 // @Router /favorite [get]
@@ -139,7 +139,6 @@ func (f favoriteController) GetDetailFavoriteEnterprise(c echo.Context) error {
 			Postcode:    enterprise.Postcode,
 			Description: enterprise.Description,
 			Status:      enterprise.Status,
-			Tags:        enterprise.Tags,
 			UpdatedAt:   enterprise.UpdatedAt,
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,

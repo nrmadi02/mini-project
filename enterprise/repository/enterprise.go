@@ -15,13 +15,19 @@ func NewEnterpriseRepository(db *gorm.DB) domain.EnterpriseRepository {
 	}
 }
 
-func (e enterpriseRepository) FindAll(search string) (enterprises domain.Enterprises, err error) {
-	if search != "" {
-		err = e.DB.Preload("Tags").Where("name LIKE ?", "%"+search+"%").Find(&enterprises).Error
-	} else {
-		err = e.DB.Preload("Tags").Find(&enterprises).Error
+func (e enterpriseRepository) FindAll(search string, page, length int) (enterprises domain.Enterprises, totalData int, err error) {
+	if page == 0 {
+		page = 1
 	}
-	return enterprises, err
+	offset := (page - 1) * length
+	if search != "" {
+		totalData = int(e.DB.Preload("Tags").Where("name LIKE ?", "%"+search+"%").Find(&enterprises).RowsAffected)
+		err = e.DB.Preload("Tags").Offset(offset).Limit(length).Where("name LIKE ?", "%"+search+"%").Find(&enterprises).Error
+	} else {
+		totalData = int(e.DB.Preload("Tags").Find(&enterprises).RowsAffected)
+		err = e.DB.Preload("Tags").Offset(offset).Limit(length).Find(&enterprises).Error
+	}
+	return enterprises, totalData, err
 }
 
 func (e enterpriseRepository) FindByStatusDraft() (enterprises domain.Enterprises, err error) {

@@ -1,15 +1,17 @@
 package app
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/gommon/log"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/nrmadi02/mini-project/app/config"
 	"github.com/nrmadi02/mini-project/app/router"
 	_ "github.com/nrmadi02/mini-project/docs"
-	mid "github.com/nrmadi02/mini-project/user/delivery/http/middleware"
+	log "github.com/sirupsen/logrus"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"os"
+	"time"
 )
 
 // @title UMKM applications Documentation
@@ -23,12 +25,10 @@ import (
 // @name Authorization
 
 func Run() {
-
 	db := config.InitDB()
 
 	e := echo.New()
-	mid.NewGoMiddleware().LogMiddleware(e)
-
+	e.Use(loggingMiddleware())
 	router.SetupRouter(e, db)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
@@ -37,4 +37,18 @@ func Run() {
 	if err := e.Start(address); err != nil {
 		log.Info("shutting down the server")
 	}
+}
+
+func loggingMiddleware() echo.MiddlewareFunc {
+	return middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
+		var res map[string]interface{}
+		_ = json.Unmarshal(resBody, &res)
+		start := time.Now()
+		log.WithFields(log.Fields{
+			"method":     c.Request().Method,
+			"path":       c.Path(),
+			"status":     c.Response().Status,
+			"latency_ms": time.Since(start).Milliseconds(),
+		}).Info(res["message"])
+	})
 }

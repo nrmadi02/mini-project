@@ -14,9 +14,10 @@ type User struct {
 	Username         string             `json:"username" gorm:"unique;notnull"`
 	Password         string             `json:"password" gorm:"notnull"`
 	Roles            []Role             `json:"roles" gorm:"many2many:user_roles;"`
-	Enterprises      []Enterprise       `json:"enterprises" gorm:"foreignKey:UserID;references:ID"`
-	RatingEnterprise []RatingEnterprise `json:"rating_enterprise" gorm:"foreignKey:UserID;references:ID"`
-	Favorite         Favorite           `json:"favorite" gorm:"foreignKey:UserID;references:ID"`
+	Enterprises      []Enterprise       `json:"enterprises,omitempty" gorm:"foreignKey:UserID;references:ID"`
+	RatingEnterprise []RatingEnterprise `json:"rating_enterprise,omitempty" gorm:"foreignKey:UserID;references:ID"`
+	Reviews          []Review           `json:"reviews,omitempty" gorm:"foreignKey:UserID;references:ID"`
+	Favorite         Favorite           `json:"favorite,omitempty" gorm:"foreignKey:UserID;references:ID"`
 	CreatedAt        time.Time          `json:"created_at"`
 	UpdatedAt        time.Time          `json:"updated_at"`
 }

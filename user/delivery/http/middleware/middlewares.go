@@ -6,6 +6,8 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	mid "github.com/labstack/echo/v4/middleware"
+	"log"
+	"os"
 )
 
 type GoMiddleware struct {
@@ -16,8 +18,15 @@ func NewGoMiddleware() *GoMiddleware {
 }
 
 func (m *GoMiddleware) LogMiddleware(e *echo.Echo) {
+	fp, err := os.OpenFile("logfile.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	log.New(fp, "\r\n", log.LstdFlags)
 	e.Use(mid.LoggerWithConfig(mid.LoggerConfig{
-		Format: "method=${method}, uri=${uri}, status=${status}, latency_human=${latency_human}\n",
+		Format:           "[${time_custom}] ${status} ${method} ${uri} ${latency_human}\n",
+		CustomTimeFormat: "15:04:05, 02-01-2006",
+		Output:           fp,
 	}))
 }
 

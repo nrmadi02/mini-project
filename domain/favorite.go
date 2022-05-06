@@ -8,7 +8,7 @@ import (
 type Favorite struct {
 	ID          uuid.UUID    `json:"id" gorm:"PrimaryKey"`
 	UserID      uuid.UUID    `json:"user_id" gorm:"notnull;type:varchar;size:191"`
-	Enterprises []Enterprise `json:"enterprise_favorites" gorm:"many2many:enterprise_favorites;"`
+	Enterprises []Enterprise `json:"enterprise_favorites,omitempty" gorm:"many2many:enterprise_favorites;"`
 	CreatedAt   time.Time    `json:"created_at"`
 	UpdatedAt   time.Time    `json:"updated_at"`
 }

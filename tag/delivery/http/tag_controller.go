@@ -62,7 +62,7 @@ func (t tagController) GetTagsList(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /tag/{id} [delete]
-// @Param id path string true "id tag"
+// @Param id path string true "tag id"
 // @Success 200 {object} response.JSONSuccessDeleteResult{}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 401 {object} response.JSONUnauthorizedResult{}

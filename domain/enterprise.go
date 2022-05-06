@@ -17,8 +17,9 @@ type Enterprise struct {
 	Longitude        string             `json:"longitude" gorm:"null"`
 	Description      string             `json:"description" gorm:"notnull;type:text"`
 	Status           int                `json:"status" gorm:"notnull"`
-	Tags             []Tag              `json:"tags" gorm:"many2many:enterprise_tags;"`
-	RatingEnterprise []RatingEnterprise `json:"rating_enterprise" gorm:"foreignKey:EnterpriseID;references:ID"`
+	Tags             []Tag              `json:"tags,omitempty" gorm:"many2many:enterprise_tags;"`
+	RatingEnterprise []RatingEnterprise `json:"rating_enterprise,omitempty" gorm:"foreignKey:EnterpriseID;references:ID"`
+	Reviews          []Review           `json:"reviews,omitempty" gorm:"foreignKey:EnterpriseID;references:ID"`
 	CreatedAt        time.Time          `json:"created_at"`
 	UpdatedAt        time.Time          `json:"updated_at"`
 }
@@ -28,7 +29,7 @@ type Enterprises []Enterprise
 type EnterpriseRepository interface {
 	FindByID(id string) (Enterprise, error)
 	FindByUserID(id string) (Enterprises, error)
-	FindAll(search string) (Enterprises, error)
+	FindAll(search string, page, length int) (enterprises Enterprises, totalData int, err error)
 	FindByIDs(ids []string) (Enterprises, error)
 	FindByStatusDraft() (Enterprises, error)
 	FindByStatusPublish() (Enterprises, error)
@@ -44,6 +45,6 @@ type EnterpriseUsecase interface {
 	UpdateEnterpriseByID(id string, userid string, request request2.CreateEnterpriseRequest) (Enterprise, error)
 	GetDetailEnterpriseByID(id string) (Enterprise, error)
 	GetListEnterpriseByStatus(status int) (Enterprises, error)
-	GetListAllEnterprise(search string) (Enterprises, error)
+	GetListAllEnterprise(search string, page, length int) (enterprises Enterprises, totalData int, err error)
 	DeleteEnterpriseByID(id string) error
 }

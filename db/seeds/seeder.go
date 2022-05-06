@@ -1,8 +1,8 @@
 package seeds
 
 import (
+	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
-	"log"
 	"reflect"
 )
 
