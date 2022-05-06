@@ -2,7 +2,7 @@ package seeds
 
 import (
 	"github.com/nrmadi02/mini-project/domain"
-	role "github.com/nrmadi02/mini-project/role/utils"
+	"github.com/nrmadi02/mini-project/internal/role/utils"
 )
 
 func (s Seed) RoleSeed() {

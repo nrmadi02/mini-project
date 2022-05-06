@@ -297,7 +297,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Add rating enterprise",
                 "parameters": [
@@ -359,7 +359,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Cek rating",
                 "parameters": [
@@ -419,7 +419,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Update rating",
                 "parameters": [
@@ -486,7 +486,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Remove rating",
                 "parameters": [

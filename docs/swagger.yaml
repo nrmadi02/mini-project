@@ -369,7 +369,7 @@ paths:
       - JWT: []
       summary: Add rating enterprise
       tags:
-      - Enterprise
+      - Rating
   /enterprise/{id}/rating/user/{userid}:
     delete:
       consumes:
@@ -401,7 +401,7 @@ paths:
       - JWT: []
       summary: Remove rating
       tags:
-      - Enterprise
+      - Rating
     get:
       consumes:
       - application/json
@@ -437,7 +437,7 @@ paths:
       - JWT: []
       summary: Cek rating
       tags:
-      - Enterprise
+      - Rating
     put:
       consumes:
       - application/json
@@ -478,7 +478,7 @@ paths:
       - JWT: []
       summary: Update rating
       tags:
-      - Enterprise
+      - Rating
   /enterprise/{id}/status:
     put:
       consumes:

@@ -293,7 +293,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Add rating enterprise",
                 "parameters": [
@@ -355,7 +355,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Cek rating",
                 "parameters": [
@@ -415,7 +415,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Update rating",
                 "parameters": [
@@ -482,7 +482,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Enterprise"
+                    "Rating"
                 ],
                 "summary": "Remove rating",
                 "parameters": [

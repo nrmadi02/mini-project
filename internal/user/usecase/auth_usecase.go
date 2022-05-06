@@ -3,8 +3,8 @@ package usecase
 import (
 	"errors"
 	"github.com/nrmadi02/mini-project/domain"
-	role "github.com/nrmadi02/mini-project/role/utils"
-	"github.com/nrmadi02/mini-project/user/delivery/http/helper"
+	"github.com/nrmadi02/mini-project/internal/role/utils"
+	"github.com/nrmadi02/mini-project/internal/user/delivery/http/helper"
 	request2 "github.com/nrmadi02/mini-project/web/request"
 	"github.com/nrmadi02/mini-project/web/response"
 	uuid "github.com/satori/go.uuid"

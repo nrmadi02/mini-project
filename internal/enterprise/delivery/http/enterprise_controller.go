@@ -448,7 +448,7 @@ func (e enterpriseController) GetDistance(c echo.Context) error {
 // AddNewRanting godoc
 // @Summary Add rating enterprise
 // @Description add rating enterprise rate 1-5
-// @Tags Enterprise
+// @Tags Rating
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating [post]
@@ -492,7 +492,7 @@ func (e enterpriseController) AddNewRanting(c echo.Context) error {
 // CekRatingUser godoc
 // @Summary Cek rating
 // @Description cek rating user
-// @Tags Enterprise
+// @Tags Rating
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [get]
@@ -528,7 +528,7 @@ func (e enterpriseController) CekRatingUser(c echo.Context) error {
 // DeleteRatingUser godoc
 // @Summary Remove rating
 // @Description remove rating user
-// @Tags Enterprise
+// @Tags Rating
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [delete]
@@ -570,7 +570,7 @@ func (e enterpriseController) DeleteRatingUser(c echo.Context) error {
 // UpdateRating godoc
 // @Summary Update rating
 // @Description update rating
-// @Tags Enterprise
+// @Tags Rating
 // @accept json
 // @Produce json
 // @Router /enterprise/{id}/rating/user/{userid} [put]
