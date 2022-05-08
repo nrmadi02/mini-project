@@ -10,11 +10,12 @@ import (
 
 func init() {
 	log.SetFormatter(&log.JSONFormatter{})
-	err := godotenv.Load(".env")
 
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	
 	connectMongo, err := config.ConnectMongo()
 	if err != nil {
 		log.Fatal(err.Error())

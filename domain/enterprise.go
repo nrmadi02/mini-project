@@ -17,7 +17,7 @@ type Enterprise struct {
 	Longitude        string             `json:"longitude" gorm:"null"`
 	Description      string             `json:"description" gorm:"notnull;type:text"`
 	Status           int                `json:"status" gorm:"notnull"`
-	Tags             []Tag              `json:"tags,omitempty" gorm:"many2many:enterprise_tags;"`
+	Tags             []Tag              `json:"tags,omitempty" gorm:"many2many:enterprise_tags;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	RatingEnterprise []RatingEnterprise `json:"rating_enterprise,omitempty" gorm:"foreignKey:EnterpriseID;references:ID"`
 	Reviews          []Review           `json:"reviews,omitempty" gorm:"foreignKey:EnterpriseID;references:ID"`
 	CreatedAt        time.Time          `json:"created_at"`
@@ -34,7 +34,7 @@ type EnterpriseRepository interface {
 	FindByStatusDraft() (Enterprises, error)
 	FindByStatusPublish() (Enterprises, error)
 	UpdateStatusByID(id string, status int) (Enterprise, error)
-	Update(enterprise Enterprise, req Enterprise) (Enterprise, error)
+	Update(enterprise Enterprise) (Enterprise, error)
 	Save(enterprise Enterprise) (Enterprise, error)
 	Delete(enterprise Enterprise) error
 }

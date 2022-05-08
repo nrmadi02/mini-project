@@ -125,11 +125,17 @@ func (f favoriteController) GetDetailFavoriteEnterprise(c echo.Context) error {
 			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 		}
 		var currRat int
-		for _, arr := range rantings {
-			currRat += arr.Rating
+		var finalRating float64
+		if len(rantings) != 0 {
+			for _, arr := range rantings {
+				currRat += arr.Rating
+			}
+			var rateAvr float64
+			rateAvr = float64(currRat) / float64(len(rantings))
+			finalRating = math.Round(rateAvr*100) / 100
+		} else {
+			finalRating = 0
 		}
-		var rateAvr float64
-		rateAvr = float64(currRat) / float64(len(rantings))
 		res = append(res, response.GetListByStatusResponse{
 			ID:          enterprise.ID,
 			Name:        enterprise.Name,
@@ -143,7 +149,7 @@ func (f favoriteController) GetDetailFavoriteEnterprise(c echo.Context) error {
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,
 			Longitude:   enterprise.Longitude,
-			Rating:      math.Round(rateAvr*100) / 100,
+			Rating:      finalRating,
 			Owner: response.UserDetailResponse{
 				ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
 			},

@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/nrmadi02/mini-project/domain"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type enterpriseRepository struct {
@@ -55,31 +56,14 @@ func (e enterpriseRepository) Save(enterprise domain.Enterprise) (domain.Enterpr
 	return enterprise, err
 }
 
-func (e enterpriseRepository) Update(enterprise domain.Enterprise, req domain.Enterprise) (domain.Enterprise, error) {
-	if len(enterprise.Tags) != 0 {
-		err := e.DB.Model(&enterprise).Association("Tags").Clear()
-		if err != nil {
-			return domain.Enterprise{}, err
-		}
-	}
-	err := e.DB.Model(&enterprise).Where("id = ? ", req.ID).Updates(map[string]interface{}{
-		"name":         req.Name,
-		"number_phone": req.NumberPhone,
-		"address":      req.Address,
-		"postcode":     req.Postcode,
-		"description":  req.Description,
-		"latitude":     req.Latitude,
-		"longitude":    req.Longitude,
-	}).Association("Tags").Append(req.Tags)
+func (e enterpriseRepository) Update(enterprise domain.Enterprise) (domain.Enterprise, error) {
+	err := e.DB.Model(&enterprise).Where("id = ? ", enterprise.ID).Updates(&enterprise).Error
+	err = e.DB.Model(&enterprise).Association("Tags").Replace(&enterprise.Tags)
 	return enterprise, err
 }
 
 func (e enterpriseRepository) Delete(enterprise domain.Enterprise) error {
-	err := e.DB.Model(&enterprise).Association("Tags").Clear()
-	if err != nil {
-		return err
-	}
-	err = e.DB.Where("id = ? ", enterprise.ID).Delete(&enterprise).Error
+	err := e.DB.Select(clause.Associations).Where("id = ?", enterprise.ID).Delete(&enterprise).Error
 	return err
 }
 

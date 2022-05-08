@@ -103,8 +103,7 @@ func (e enterpriseUsecase) UpdateEnterpriseByID(id string, userid string, reques
 			return domain.Enterprise{}, errors.New("to update enterprise must current user")
 		}
 	}
-
-	req := domain.Enterprise{
+	enterpriseByID = domain.Enterprise{
 		ID:          enterpriseByID.ID,
 		UserID:      enterpriseByID.UserID,
 		Name:        request.Name,
@@ -117,7 +116,7 @@ func (e enterpriseUsecase) UpdateEnterpriseByID(id string, userid string, reques
 		Status:      enterpriseByID.Status,
 		Tags:        tagsList,
 	}
-	res, err := e.enterpriseRepository.Update(enterpriseByID, req)
+	res, err := e.enterpriseRepository.Update(enterpriseByID)
 	return res, err
 }
 

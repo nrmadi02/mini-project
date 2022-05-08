@@ -61,7 +61,7 @@ func InitialMigration() {
 	err := DB.AutoMigrate(&domain.User{}, &domain.Role{}, &domain.Tag{}, &domain.Enterprise{}, &domain.RatingEnterprise{}, &domain.Favorite{}, &domain.Review{})
 
 	if err != nil {
-		panic("could not connect to db")
+		panic("could not connect to db " + err.Error())
 		return
 	}
 	seeds.Execute(DB)

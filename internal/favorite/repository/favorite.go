@@ -41,7 +41,7 @@ func (f favoriteRepository) Update(favorite domain.Favorite, enterprises domain.
 		err := f.DB.Model(&favorite).Association("Enterprises").Delete(enterprises)
 		return favorite, err
 	} else {
-		err := f.DB.Model(&favorite).Where("id = ? ", favorite.ID).Association("Enterprises").Append(enterprises)
+		err := f.DB.Model(&favorite).Association("Enterprises").Append(enterprises)
 		return favorite, err
 	}
 

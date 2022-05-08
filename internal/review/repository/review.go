@@ -36,7 +36,7 @@ func (r reviewRepository) Update(enterpriseid, userid string, value string) (rev
 }
 
 func (r reviewRepository) Delete(review domain.Review) error {
-	err := r.DB.Delete(&review).Error
+	err := r.DB.Delete(&review, &review.ID).Error
 	return err
 }
 

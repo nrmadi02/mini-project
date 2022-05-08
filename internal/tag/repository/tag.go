@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/nrmadi02/mini-project/domain"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type tagRepository struct {
@@ -36,7 +37,7 @@ func (t tagRepository) FindAllTags() (tags domain.Tags, err error) {
 }
 
 func (t tagRepository) Delete(tag domain.Tag, id string) error {
-	err := t.DB.Where("id = ? ", id).Delete(&tag).Error
+	err := t.DB.Select(clause.Associations).Where("id = ? ", id).Delete(&tag).Error
 	return err
 }
 

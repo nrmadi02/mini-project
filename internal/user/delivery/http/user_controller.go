@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/nrmadi02/mini-project/domain"
@@ -56,16 +57,19 @@ func (u userController) User(c echo.Context) error {
 	}
 
 	for _, enterprise := range enterprises {
-		rantings, err := u.RatingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-		if err != nil {
-			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-		}
+		rantings, _ := u.RatingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
 		var currRat int
-		for _, arr := range rantings {
-			currRat += arr.Rating
+		var finalRating float64
+		if len(rantings) != 0 {
+			for _, arr := range rantings {
+				currRat += arr.Rating
+			}
+			var rateAvr float64
+			rateAvr = float64(currRat) / float64(len(rantings))
+			finalRating = math.Round(rateAvr*100) / 100
+		} else {
+			finalRating = 0
 		}
-		var rateAvr float64
-		rateAvr = float64(currRat) / float64(len(rantings))
 		resEnterprises = append(resEnterprises, struct {
 			ID          uuid.UUID   `json:"id"`
 			UserID      uuid.UUID   `json:"user_id"`
@@ -95,7 +99,7 @@ func (u userController) User(c echo.Context) error {
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,
 			Longitude:   enterprise.Longitude,
-			Rating:      math.Round(rateAvr*100) / 100,
+			Rating:      finalRating,
 		})
 	}
 
@@ -109,7 +113,7 @@ func (u userController) User(c echo.Context) error {
 		CreatedAt:   user.CreatedAt,
 		UpdatedAt:   user.UpdatedAt,
 	}
-
+	fmt.Println(res)
 	return response.SuccessResponse(c, http.StatusOK, true, "success get detail user", res)
 
 }
