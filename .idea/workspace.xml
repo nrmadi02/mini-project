@@ -69,13 +69,14 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/nrmadi02/Documents/Project/mini-project/internal/tag/repository",
+    "last_opened_file_path": "/home/nrmadi02/Documents/Project/mini-project/testing/repository",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.goide.configuration.GoLibrariesConfigurableProvider"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/testing/repository" />
       <recent name="$PROJECT_DIR$/internal/tag/repository" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
