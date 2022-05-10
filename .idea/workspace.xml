@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/rating/usecase/rating_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/review/usecase/review_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/tag/usecase/tag_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/user/usecase/auth_usecase_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/user/usecase/user_usecase_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/cover.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/cover.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/mocks/EnterpriseRepository.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/mocks/EnterpriseRepository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/delivery/http/helper/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/delivery/http/helper/jwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/usecase/auth_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/usecase/auth_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/usecase/user_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/usecase/user_usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,13 +69,14 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/nrmadi02/Documents/Project/mini-project/internal/tag/repository",
+    "last_opened_file_path": "/home/nrmadi02/Documents/Project/mini-project/testing/repository",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.goide.configuration.GoLibrariesConfigurableProvider"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/testing/repository" />
       <recent name="$PROJECT_DIR$/internal/tag/repository" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
