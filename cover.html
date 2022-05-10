@@ -57,17 +57,31 @@
 				
 				<option value="file0">github.com/nrmadi02/mini-project/internal/enterprise/repository/enterprise.go (100.0%)</option>
 				
-				<option value="file1">github.com/nrmadi02/mini-project/internal/favorite/repository/favorite.go (100.0%)</option>
+				<option value="file1">github.com/nrmadi02/mini-project/internal/enterprise/usecase/enterprise_usecase.go (100.0%)</option>
 				
-				<option value="file2">github.com/nrmadi02/mini-project/internal/rating/repository/rating.go (100.0%)</option>
+				<option value="file2">github.com/nrmadi02/mini-project/internal/favorite/repository/favorite.go (100.0%)</option>
 				
-				<option value="file3">github.com/nrmadi02/mini-project/internal/review/repository/review.go (100.0%)</option>
+				<option value="file3">github.com/nrmadi02/mini-project/internal/favorite/usecase/favorite_usecase.go (100.0%)</option>
 				
-				<option value="file4">github.com/nrmadi02/mini-project/internal/role/repository/role.go (100.0%)</option>
+				<option value="file4">github.com/nrmadi02/mini-project/internal/rating/repository/rating.go (100.0%)</option>
 				
-				<option value="file5">github.com/nrmadi02/mini-project/internal/tag/repository/tag.go (100.0%)</option>
+				<option value="file5">github.com/nrmadi02/mini-project/internal/rating/usecase/rating_usecase.go (100.0%)</option>
 				
-				<option value="file6">github.com/nrmadi02/mini-project/internal/user/repository/user.go (100.0%)</option>
+				<option value="file6">github.com/nrmadi02/mini-project/internal/review/repository/review.go (100.0%)</option>
+				
+				<option value="file7">github.com/nrmadi02/mini-project/internal/review/usecase/review_usecase.go (100.0%)</option>
+				
+				<option value="file8">github.com/nrmadi02/mini-project/internal/role/repository/role.go (100.0%)</option>
+				
+				<option value="file9">github.com/nrmadi02/mini-project/internal/tag/repository/tag.go (100.0%)</option>
+				
+				<option value="file10">github.com/nrmadi02/mini-project/internal/tag/usecase/tag_usecase.go (100.0%)</option>
+				
+				<option value="file11">github.com/nrmadi02/mini-project/internal/user/repository/user.go (100.0%)</option>
+				
+				<option value="file12">github.com/nrmadi02/mini-project/internal/user/usecase/auth_usecase.go (100.0%)</option>
+				
+				<option value="file13">github.com/nrmadi02/mini-project/internal/user/usecase/user_usecase.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -161,7 +175,150 @@ func (e enterpriseRepository) FindByUserID(id string) (enterprises domain.Enterp
 }</span>
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package repository
+		<pre class="file" id="file1" style="display: none">package usecase
+
+import (
+        "errors"
+        "github.com/nrmadi02/mini-project/domain"
+        request2 "github.com/nrmadi02/mini-project/web/request"
+        uuid "github.com/satori/go.uuid"
+)
+
+type enterpriseUsecase struct {
+        enterpriseRepository domain.EnterpriseRepository
+        tagRepository        domain.TagRepository
+        userRepository       domain.UserRepository
+}
+
+func NewEnterpriseUsecase(er domain.EnterpriseRepository, tr domain.TagRepository, ur domain.UserRepository) domain.EnterpriseUsecase <span class="cov8" title="1">{
+        return enterpriseUsecase{
+                enterpriseRepository: er,
+                tagRepository:        tr,
+                userRepository:       ur,
+        }
+}</span>
+
+func (e enterpriseUsecase) CreateNewEnterprise(request request2.CreateEnterpriseRequest, userid string) (domain.Enterprise, error) <span class="cov8" title="1">{
+        tagsList, err := e.tagRepository.FindByIDs(request.Tags)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">user, err := e.userRepository.FindUserById(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">reqBody := domain.Enterprise{
+                ID:          uuid.NewV4(),
+                UserID:      user.ID,
+                Name:        request.Name,
+                Address:     request.Address,
+                NumberPhone: request.NumberPhone,
+                Postcode:    request.Postcode,
+                Description: request.Description,
+                Latitude:    request.Latitude,
+                Longitude:   request.Longitude,
+                Status:      0,
+                Tags:        tagsList,
+        }
+
+        res, err := e.enterpriseRepository.Save(reqBody)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+        <span class="cov8" title="1">return res, err</span>
+}
+
+func (e enterpriseUsecase) UpdateStatusEnterprise(id string, status int) (domain.Enterprise, error) <span class="cov8" title="1">{
+        res, err := e.enterpriseRepository.UpdateStatusByID(id, status)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+        <span class="cov8" title="1">return res, err</span>
+}
+
+func (e enterpriseUsecase) GetDetailEnterpriseByID(id string) (domain.Enterprise, error) <span class="cov8" title="1">{
+        enterprise, err := e.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+        <span class="cov8" title="1">return enterprise, err</span>
+}
+
+func (e enterpriseUsecase) GetListEnterpriseByStatus(status int) (domain.Enterprises, error) <span class="cov8" title="1">{
+        var enterprises domain.Enterprises
+        var err error
+        if status == 0 </span><span class="cov8" title="1">{
+                enterprises, err = e.enterpriseRepository.FindByStatusDraft()
+        }</span> else<span class="cov8" title="1"> if status == 1 </span><span class="cov8" title="1">{
+                enterprises, err = e.enterpriseRepository.FindByStatusPublish()
+        }</span> else<span class="cov8" title="1"> {
+                return domain.Enterprises{}, errors.New("something wrong")
+        }</span>
+
+        <span class="cov8" title="1">if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprises{}, err
+        }</span>
+
+        <span class="cov8" title="1">return enterprises, err</span>
+}
+
+func (e enterpriseUsecase) UpdateEnterpriseByID(id string, userid string, request request2.CreateEnterpriseRequest) (domain.Enterprise, error) <span class="cov8" title="1">{
+        tagsList, err := e.tagRepository.FindByIDs(request.Tags)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">enterpriseByID, err := e.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">if enterpriseByID.UserID.String() != userid </span><span class="cov8" title="1">{
+                return domain.Enterprise{}, errors.New("to update enterprise must current user")
+        }</span>
+        <span class="cov8" title="1">enterpriseByID = domain.Enterprise{
+                ID:          enterpriseByID.ID,
+                UserID:      enterpriseByID.UserID,
+                Name:        request.Name,
+                Address:     request.Address,
+                NumberPhone: request.NumberPhone,
+                Postcode:    request.Postcode,
+                Description: request.Description,
+                Latitude:    request.Latitude,
+                Longitude:   request.Longitude,
+                Status:      enterpriseByID.Status,
+                Tags:        tagsList,
+        }
+        res, err := e.enterpriseRepository.Update(enterpriseByID)
+        return res, err</span>
+}
+
+func (e enterpriseUsecase) GetListAllEnterprise(search string, page, length int) (enterprises domain.Enterprises, totalData int, err error) <span class="cov8" title="1">{
+        enterprises, totalData, err = e.enterpriseRepository.FindAll(search, page, length)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Enterprises{}, 0, err
+        }</span>
+        <span class="cov8" title="1">return enterprises, totalData, err</span>
+}
+
+func (e enterpriseUsecase) DeleteEnterpriseByID(id string) error <span class="cov8" title="1">{
+        enterprise, err := e.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">err = e.enterpriseRepository.Delete(enterprise)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return err</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -211,7 +368,78 @@ func (f favoriteRepository) Update(favorite domain.Favorite, enterprises domain.
 }
 </pre>
 		
-		<pre class="file" id="file2" style="display: none">package repository
+		<pre class="file" id="file3" style="display: none">package usecase
+
+import (
+        "errors"
+        "github.com/nrmadi02/mini-project/domain"
+        uuid "github.com/satori/go.uuid"
+)
+
+type favoriteUsecase struct {
+        enterprisesRepository domain.EnterpriseRepository
+        favoriteRepository    domain.FavoriteRepository
+}
+
+func NewFavoriteUsecase(er domain.EnterpriseRepository, fr domain.FavoriteRepository) domain.FavoriteUsecase <span class="cov8" title="1">{
+        return favoriteUsecase{
+                enterprisesRepository: er,
+                favoriteRepository:    fr,
+        }
+}</span>
+
+func (f favoriteUsecase) GetDetailByID(id string) (domain.Favorite, error) <span class="cov8" title="1">{
+        favorite, err := f.favoriteRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+
+        <span class="cov8" title="1">return favorite, err</span>
+}
+
+func (f favoriteUsecase) GetDetailByUserID(id string) (domain.Favorite, error) <span class="cov8" title="1">{
+        favorite, err := f.favoriteRepository.FindByUserID(id)
+        if favorite.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Favorite{}, errors.New("user not found")
+        }</span>
+
+        <span class="cov8" title="1">return favorite, err</span>
+}
+
+func (f favoriteUsecase) AddFavorite(ids []string, userid string) (domain.Favorite, error) <span class="cov8" title="1">{
+        enterprises, _ := f.enterprisesRepository.FindByIDs(ids)
+        if len(enterprises) == 0 </span><span class="cov8" title="1">{
+                return domain.Favorite{}, errors.New("enterprise not found")
+        }</span>
+        <span class="cov8" title="1">favorite, err := f.favoriteRepository.FindByUserID(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+        <span class="cov8" title="1">update, err := f.favoriteRepository.Update(favorite, enterprises, "add")
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+        <span class="cov8" title="1">return update, err</span>
+}
+
+func (f favoriteUsecase) RemoveFavorite(ids []string, userid string) (domain.Favorite, error) <span class="cov8" title="1">{
+        enterprises, err := f.enterprisesRepository.FindByIDs(ids)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+        <span class="cov8" title="1">favorite, err := f.favoriteRepository.FindByUserID(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+        <span class="cov8" title="1">update, err := f.favoriteRepository.Update(favorite, enterprises, "remove")
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Favorite{}, err
+        }</span>
+        <span class="cov8" title="1">return update, err</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -254,7 +482,125 @@ func (r ratingRepository) DeleteRating(rating domain.RatingEnterprise) error <sp
 }</span>
 </pre>
 		
-		<pre class="file" id="file3" style="display: none">package repository
+		<pre class="file" id="file5" style="display: none">package usecase
+
+import (
+        "github.com/nrmadi02/mini-project/domain"
+        uuid "github.com/satori/go.uuid"
+)
+
+type ratingUsecase struct {
+        userRepository       domain.UserRepository
+        enterpriseRepository domain.EnterpriseRepository
+        ratingRepository     domain.RatingRepository
+}
+
+func NewRatingUsecase(ur domain.UserRepository, er domain.EnterpriseRepository, rr domain.RatingRepository) domain.RatingUsecase <span class="cov8" title="1">{
+        return ratingUsecase{
+                userRepository:       ur,
+                enterpriseRepository: er,
+                ratingRepository:     rr,
+        }
+}</span>
+
+func (r ratingUsecase) UpdateRating(id, userid string, value int) (domain.RatingEnterprise, error) <span class="cov8" title="1">{
+        user, err := r.userRepository.FindUserById(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+        <span class="cov8" title="1">enterprise, err := r.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">rating, err := r.ratingRepository.UpdateRating(enterprise.ID.String(), user.ID.String(), value)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">return rating, err</span>
+}
+
+func (r ratingUsecase) DeleteRating(id, userid string) error <span class="cov8" title="1">{
+        user, err := r.userRepository.FindUserById(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">enterprise, err := r.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">rating, err := r.ratingRepository.FindRatingByIDUserAndEnterprise(enterprise.ID.String(), user.ID.String())
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">err = r.ratingRepository.DeleteRating(rating)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (r ratingUsecase) AddNewRanting(id, userid string, value int) (domain.RatingEnterprise, error) <span class="cov8" title="1">{
+        user, err := r.userRepository.FindUserById(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+        <span class="cov8" title="1">enterprise, err := r.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">req := domain.RatingEnterprise{
+                ID:           uuid.NewV4(),
+                UserID:       user.ID,
+                EnterpriseID: enterprise.ID,
+                Rating:       value,
+        }
+
+        rating, err := r.ratingRepository.AddRating(req)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">return rating, err</span>
+}
+
+func (r ratingUsecase) GetAllRatingByEnterpriseID(id string) (domain.RatingEnterprises, error) <span class="cov8" title="1">{
+        enterprise, err := r.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprises{}, err
+        }</span>
+        <span class="cov8" title="1">enterprises, err := r.ratingRepository.GetAllRatingByEnterpriseID(enterprise.ID.String())
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return enterprises, err</span>
+
+}
+
+func (r ratingUsecase) FindRating(id, userid string) (domain.RatingEnterprise, error) <span class="cov8" title="1">{
+        user, err := r.userRepository.FindUserById(userid)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+        <span class="cov8" title="1">enterprise, err := r.enterpriseRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">rating, err := r.ratingRepository.FindRatingByIDUserAndEnterprise(enterprise.ID.String(), user.ID.String())
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.RatingEnterprise{}, err
+        }</span>
+
+        <span class="cov8" title="1">return rating, err</span>
+}</pre>
+		
+		<pre class="file" id="file6" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -302,7 +648,104 @@ func (r reviewRepository) Add(review domain.Review) (domain.Review, error) <span
 }</span>
 </pre>
 		
-		<pre class="file" id="file4" style="display: none">package repository
+		<pre class="file" id="file7" style="display: none">package usecase
+
+import (
+        "errors"
+        "github.com/nrmadi02/mini-project/domain"
+        uuid "github.com/satori/go.uuid"
+)
+
+type reviewUsecase struct {
+        enterpriseRepository domain.EnterpriseRepository
+        userRepository       domain.UserRepository
+        reviewRepository     domain.ReviewRepository
+}
+
+func NewReviewUsecase(er domain.EnterpriseRepository, ur domain.UserRepository, rr domain.ReviewRepository) domain.ReviewUsecase <span class="cov8" title="1">{
+        return reviewUsecase{
+                enterpriseRepository: er,
+                userRepository:       ur,
+                reviewRepository:     rr,
+        }
+}</span>
+
+func (r reviewUsecase) AddReview(enterpriseid, userid string, value string) (domain.Review, error) <span class="cov8" title="1">{
+        enterprise, _ := r.enterpriseRepository.FindByID(enterpriseid)
+        if enterprise.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Review{}, errors.New("enterprise not found")
+        }</span>
+        <span class="cov8" title="1">user, _ := r.userRepository.FindUserById(userid)
+        if user.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Review{}, errors.New("user not found")
+        }</span>
+
+        <span class="cov8" title="1">req := domain.Review{
+                ID:           uuid.NewV4(),
+                UserID:       user.ID,
+                EnterpriseID: enterprise.ID,
+                Review:       value,
+        }
+
+        add, err := r.reviewRepository.Add(req)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Review{}, err
+        }</span>
+
+        <span class="cov8" title="1">return add, nil</span>
+}
+
+func (r reviewUsecase) UpdateReview(enterpriseid, userid string, value string) (domain.Review, error) <span class="cov8" title="1">{
+        review, _ := r.reviewRepository.FindByUserIDAndEnterpriseID(enterpriseid, userid)
+        if review.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Review{}, errors.New("request enterprise and user")
+        }</span>
+
+        <span class="cov8" title="1">update, err := r.reviewRepository.Update(review.EnterpriseID.String(), review.UserID.String(), value)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Review{}, err
+        }</span>
+        <span class="cov8" title="1">return update, nil</span>
+}
+
+func (r reviewUsecase) DeleteReview(enterpriseid, userid string) error <span class="cov8" title="1">{
+        review, _ := r.reviewRepository.FindByUserIDAndEnterpriseID(enterpriseid, userid)
+        if review.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return errors.New("request enterprise and user")
+        }</span>
+
+        <span class="cov8" title="1">err := r.reviewRepository.Delete(review)
+        return err</span>
+}
+
+func (r reviewUsecase) GetListReviewsByEnterpriseID(id string) (domain.Reviews, error) <span class="cov8" title="1">{
+        reviews, err := r.reviewRepository.FindByEnterpriseID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return reviews, nil</span>
+}
+
+func (r reviewUsecase) GetReviewByUserIDAndEnterpriseID(enterpriseid, userid string) (domain.Review, error) <span class="cov8" title="1">{
+        review, _ := r.reviewRepository.FindByUserIDAndEnterpriseID(enterpriseid, userid)
+        if review.ID == uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Review{}, errors.New("request enterprise and user")
+        }</span>
+
+        <span class="cov8" title="1">return review, nil</span>
+}
+
+func (r reviewUsecase) GetDetailReviewByID(id string) (domain.Review, error) <span class="cov8" title="1">{
+        review, err := r.reviewRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Review{}, err
+        }</span>
+        <span class="cov8" title="1">return review, err</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -325,7 +768,7 @@ func (r roleRepository) FindByName(name string) (role domain.Role, err error) <s
 }</span>
 </pre>
 		
-		<pre class="file" id="file5" style="display: none">package repository
+		<pre class="file" id="file9" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -374,7 +817,63 @@ func (t tagRepository) Save(tag domain.Tag) (domain.Tag, error) <span class="cov
 }</span>
 </pre>
 		
-		<pre class="file" id="file6" style="display: none">package repository
+		<pre class="file" id="file10" style="display: none">package usecase
+
+import (
+        "errors"
+        "github.com/nrmadi02/mini-project/domain"
+        "github.com/nrmadi02/mini-project/web/request"
+        uuid "github.com/satori/go.uuid"
+)
+
+type tagUsecase struct {
+        tagRepository domain.TagRepository
+}
+
+func NewTagUsecase(tg domain.TagRepository) domain.TagUsecase <span class="cov8" title="1">{
+        return tagUsecase{
+                tagRepository: tg,
+        }
+}</span>
+
+func (t tagUsecase) GetAllTags() (domain.Tags, error) <span class="cov8" title="1">{
+        return t.tagRepository.FindAllTags()
+}</span>
+
+func (t tagUsecase) DeleteTag(id string) error <span class="cov8" title="1">{
+        tag, err := t.tagRepository.FindByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">err = t.tagRepository.Delete(tag, id)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (t tagUsecase) CreateNewTag(request request.CreateTagRequest) (domain.Tag, error) <span class="cov8" title="1">{
+        var existingTag domain.Tag
+        existingTag, _ = t.tagRepository.FindByName(request.Name)
+        if existingTag.ID != uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.Tag{}, errors.New("tag already exist")
+        }</span>
+        <span class="cov8" title="1">tagBody := domain.Tag{
+                ID:   uuid.NewV4(),
+                Name: request.Name,
+        }
+
+        tag, err := t.tagRepository.Save(tagBody)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.Tag{}, err
+        }</span>
+
+        <span class="cov8" title="1">return tag, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package repository
 
 import (
         "github.com/nrmadi02/mini-project/domain"
@@ -407,6 +906,148 @@ func (u userRepository) Save(user domain.User) (domain.User, error) <span class=
 func (u userRepository) FindAllUsers() (users domain.Users, err error) <span class="cov8" title="1">{
         err = u.Conn.Preload("Roles").Find(&amp;users).Error
         return users, err
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package usecase
+
+import (
+        "errors"
+        "github.com/nrmadi02/mini-project/domain"
+        "github.com/nrmadi02/mini-project/internal/role/utils"
+        "github.com/nrmadi02/mini-project/internal/user/delivery/http/helper"
+        request2 "github.com/nrmadi02/mini-project/web/request"
+        "github.com/nrmadi02/mini-project/web/response"
+        uuid "github.com/satori/go.uuid"
+        "golang.org/x/crypto/bcrypt"
+)
+
+type authUsecase struct {
+        userRepository       domain.UserRepository
+        roleRepository       domain.RoleRepository
+        favoriteRepository   domain.FavoriteRepository
+        enterpriseRepository domain.EnterpriseRepository
+}
+
+func NewAuthUsecase(ur domain.UserRepository, rr domain.RoleRepository, fr domain.FavoriteRepository, er domain.EnterpriseRepository) domain.AuthUsecase <span class="cov8" title="1">{
+        return authUsecase{
+                userRepository:       ur,
+                roleRepository:       rr,
+                favoriteRepository:   fr,
+                enterpriseRepository: er,
+        }
+}</span>
+
+func (a authUsecase) Login(request request2.LoginRequest) (response.SuccessLogin, error) <span class="cov8" title="1">{
+        user, err := a.userRepository.FindUserByEmail(request.Email)
+        if err != nil </span><span class="cov8" title="1">{
+                return response.SuccessLogin{}, err
+        }</span>
+
+        <span class="cov8" title="1">err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
+        if err != nil </span><span class="cov8" title="1">{
+                return response.SuccessLogin{}, errors.New("password wrong")
+        }</span>
+
+        <span class="cov8" title="1">jwt := helper.NewGoJWT()
+        token := jwt.CreateTokenJWT(&amp;user)
+
+        responseLogin := response.SuccessLogin{
+                ID:       user.ID,
+                Username: user.Username,
+                Fullname: user.Fullname,
+                Email:    user.Email,
+                Token:    token,
+        }
+
+        return responseLogin, nil</span>
+
+}
+
+func (a authUsecase) Register(request request2.UserCreateRequest) (domain.User, error) <span class="cov8" title="1">{
+        var existingUser domain.User
+        existingUser, _ = a.userRepository.FindUserByEmail(request.Email)
+        if existingUser.ID != uuid.FromStringOrNil("") </span><span class="cov8" title="1">{
+                return domain.User{}, errors.New("user already exist")
+        }</span>
+
+        <span class="cov8" title="1">password, _ := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+
+        clientRole, err := a.roleRepository.FindByName(role.Client.String())
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.User{}, errors.New("role not found - " + role.Client.String())
+        }</span>
+
+        <span class="cov8" title="1">user := domain.User{
+                ID:       uuid.NewV4(),
+                Fullname: request.Fullname,
+                Username: request.Username,
+                Email:    request.Email,
+                Password: string(password),
+                Roles:    []domain.Role{clientRole},
+        }
+        favorite := domain.Favorite{
+                ID:     uuid.NewV4(),
+                UserID: user.ID,
+        }
+
+        user, err = a.userRepository.Save(user)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.User{}, err
+        }</span>
+        <span class="cov8" title="1">_, _ = a.favoriteRepository.Add(favorite)
+
+        return user, nil</span>
+
+}
+
+func (a authUsecase) GetUserDetails(id string) (domain.User, domain.Favorite, domain.Enterprises, error) <span class="cov8" title="1">{
+        var user domain.User
+
+        user, err := a.userRepository.FindUserById(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return domain.User{}, domain.Favorite{}, nil, err
+        }</span>
+        <span class="cov8" title="1">favorite, _ := a.favoriteRepository.FindByUserID(user.ID.String())
+        enterprises, _ := a.enterpriseRepository.FindByUserID(user.ID.String())
+
+        return user, favorite, enterprises, nil</span>
+}
+
+func (a authUsecase) CheckIfUserIsAdmin(id string) (bool, error) <span class="cov8" title="1">{
+        user, err := a.userRepository.FindUserById(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return false, err
+        }</span>
+
+        <span class="cov8" title="1">for _, a := range user.Roles </span><span class="cov8" title="1">{
+                if a.Name == "ROLE_ADMIN" </span><span class="cov8" title="1">{
+                        return true, nil
+                }</span>
+        }
+        <span class="cov8" title="1">return false, nil</span>
+
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package usecase
+
+import (
+        "github.com/nrmadi02/mini-project/domain"
+)
+
+type userUsecase struct {
+        UserRepo domain.UserRepository
+}
+
+func NewUserUsecase(ur domain.UserRepository) domain.UserUsecase <span class="cov8" title="1">{
+        return userUsecase{
+                UserRepo: ur,
+        }
+}</span>
+
+func (u userUsecase) GetAllUsers() (domain.Users, error) <span class="cov8" title="1">{
+        return u.UserRepo.FindAllUsers()
 }</span>
 </pre>
 		

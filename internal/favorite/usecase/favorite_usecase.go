@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"errors"
-	"fmt"
 	"github.com/nrmadi02/mini-project/domain"
 	uuid "github.com/satori/go.uuid"
 )
@@ -55,7 +54,6 @@ func (f favoriteUsecase) AddFavorite(ids []string, userid string) (domain.Favori
 
 func (f favoriteUsecase) RemoveFavorite(ids []string, userid string) (domain.Favorite, error) {
 	enterprises, err := f.enterprisesRepository.FindByIDs(ids)
-	fmt.Println(enterprises)
 	if err != nil {
 		return domain.Favorite{}, err
 	}

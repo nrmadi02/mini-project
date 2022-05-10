@@ -5,29 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/enterprise/repository/enterprise_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/favorite/repository/favorite_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/rating/repository/rating_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/review/repository/review_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/role/repository/role_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/tag/repository/tag_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/user/repository/user_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/rating/usecase/rating_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/review/usecase/review_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/tag/usecase/tag_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/usecase/auth_usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/user/usecase/user_usecase_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/Review.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/review.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/enterprise.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/favorite.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/favorite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/enterprise/delivery/http/enterprise_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/enterprise/delivery/http/enterprise_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/enterprise/repository/enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/enterprise/repository/enterprise.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/cover.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/cover.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/mocks/EnterpriseRepository.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/mocks/EnterpriseRepository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/enterprise/usecase/enterprise_usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/favorite/delivery/http/favorite_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/favorite/delivery/http/favorite_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/favorite/repository/favorite.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/favorite/repository/favorite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/review/repository/review.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/review/repository/review.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/tag/repository/tag.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/tag/repository/tag.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/delivery/http/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/favorite/usecase/favorite_usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/user/delivery/http/helper/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/delivery/http/helper/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/user/usecase/auth_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/usecase/auth_usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/user/usecase/user_usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/usecase/user_usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +75,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",

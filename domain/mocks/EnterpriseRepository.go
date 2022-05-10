@@ -190,20 +190,20 @@ func (_m *EnterpriseRepository) Save(enterprise domain.Enterprise) (domain.Enter
 	return r0, r1
 }
 
-// Update provides a mock function with given fields: enterprise, req
-func (_m *EnterpriseRepository) Update(enterprise domain.Enterprise, req domain.Enterprise) (domain.Enterprise, error) {
-	ret := _m.Called(enterprise, req)
+// Update provides a mock function with given fields: enterprise
+func (_m *EnterpriseRepository) Update(enterprise domain.Enterprise) (domain.Enterprise, error) {
+	ret := _m.Called(enterprise)
 
 	var r0 domain.Enterprise
-	if rf, ok := ret.Get(0).(func(domain.Enterprise, domain.Enterprise) domain.Enterprise); ok {
-		r0 = rf(enterprise, req)
+	if rf, ok := ret.Get(0).(func(domain.Enterprise) domain.Enterprise); ok {
+		r0 = rf(enterprise)
 	} else {
 		r0 = ret.Get(0).(domain.Enterprise)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(domain.Enterprise, domain.Enterprise) error); ok {
-		r1 = rf(enterprise, req)
+	if rf, ok := ret.Get(1).(func(domain.Enterprise) error); ok {
+		r1 = rf(enterprise)
 	} else {
 		r1 = ret.Error(1)
 	}

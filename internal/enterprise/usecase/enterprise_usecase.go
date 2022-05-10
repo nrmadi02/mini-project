@@ -98,10 +98,8 @@ func (e enterpriseUsecase) UpdateEnterpriseByID(id string, userid string, reques
 		return domain.Enterprise{}, err
 	}
 
-	if enterpriseByID.ID.String() != userid {
-		if err != nil {
-			return domain.Enterprise{}, errors.New("to update enterprise must current user")
-		}
+	if enterpriseByID.UserID.String() != userid {
+		return domain.Enterprise{}, errors.New("to update enterprise must current user")
 	}
 	enterpriseByID = domain.Enterprise{
 		ID:          enterpriseByID.ID,

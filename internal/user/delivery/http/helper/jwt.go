@@ -3,6 +3,7 @@ package helper
 import (
 	"github.com/golang-jwt/jwt"
 	"github.com/nrmadi02/mini-project/domain"
+	log "github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -13,7 +14,7 @@ func NewGoJWT() *GoJWT {
 	return &GoJWT{}
 }
 
-func (j *GoJWT) CreateTokenJWT(user *domain.User) (string, error) {
+func (j *GoJWT) CreateTokenJWT(user *domain.User) string {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"UserID":    user.ID,
@@ -21,5 +22,11 @@ func (j *GoJWT) CreateTokenJWT(user *domain.User) (string, error) {
 		"ExpiresAt": time.Now().Add(time.Hour * 48).Unix(),
 	})
 
-	return token.SignedString([]byte("220220"))
+	fixToken, err := token.SignedString([]byte("220220"))
+	if err != nil {
+		panic(err.Error())
+		log.Info("error create token jwt")
+	}
+
+	return fixToken
 }

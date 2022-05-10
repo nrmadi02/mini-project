@@ -39,10 +39,7 @@ func (a authUsecase) Login(request request2.LoginRequest) (response.SuccessLogin
 	}
 
 	jwt := helper.NewGoJWT()
-	token, err := jwt.CreateTokenJWT(&user)
-	if err != nil {
-		return response.SuccessLogin{}, err
-	}
+	token := jwt.CreateTokenJWT(&user)
 
 	responseLogin := response.SuccessLogin{
 		ID:       user.ID,
@@ -84,9 +81,6 @@ func (a authUsecase) Register(request request2.UserCreateRequest) (domain.User, 
 	}
 
 	user, err = a.userRepository.Save(user)
-	if err != nil {
-		return domain.User{}, err
-	}
 	if err != nil {
 		return domain.User{}, err
 	}

@@ -5,14 +5,12 @@ import (
 )
 
 type userUsecase struct {
-	UserRepo    domain.UserRepository
-	authUsecase domain.AuthUsecase
+	UserRepo domain.UserRepository
 }
 
-func NewUserUsecase(ur domain.UserRepository, au domain.AuthUsecase) domain.UserUsecase {
+func NewUserUsecase(ur domain.UserRepository) domain.UserUsecase {
 	return userUsecase{
-		UserRepo:    ur,
-		authUsecase: au,
+		UserRepo: ur,
 	}
 }
 
