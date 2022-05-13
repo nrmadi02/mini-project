@@ -39,7 +39,7 @@ func NewFavoriteController(fu domain.FavoriteUsecase, au domain.AuthUsecase, ru 
 // @Produce json
 // @Router /favorite [post]
 // @param data body []string true "enterprise id"
-// @Success 201 {object} response.JSONSuccessResult{data=interface{}}
+// @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 404 {object} response.JSONBadRequestResult{}
 // @Security JWT
@@ -71,7 +71,7 @@ func (f favoriteController) AddFavoriteEnterprise(c echo.Context) error {
 // @Produce json
 // @Router /favorite [delete]
 // @param data body []string true "enterprise id"
-// @Success 201 {object} response.JSONSuccessResult{data=interface{}}
+// @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 404 {object} response.JSONBadRequestResult{}
 // @Security JWT
@@ -102,7 +102,7 @@ func (f favoriteController) RemoveFavoriteEnterprise(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /favorite [get]
-// @Success 201 {object} response.JSONSuccessResult{data=interface{}}
+// @Success 200 {object} response.JSONSuccessResult{data=interface{}}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 404 {object} response.JSONBadRequestResult{}
 // @Security JWT
@@ -120,12 +120,9 @@ func (f favoriteController) GetDetailFavoriteEnterprise(c echo.Context) error {
 
 	for _, enterprise := range favorite.Enterprises {
 		details, _, _, _ := f.authUsecase.GetUserDetails(enterprise.UserID.String())
-		rantings, err := f.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-		if err != nil {
-			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-		}
+		rantings, _ := f.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
 		var currRat int
-		var finalRating float64
+		var finalRating = float64(0)
 		if len(rantings) != 0 {
 			for _, arr := range rantings {
 				currRat += arr.Rating
@@ -133,8 +130,6 @@ func (f favoriteController) GetDetailFavoriteEnterprise(c echo.Context) error {
 			var rateAvr float64
 			rateAvr = float64(currRat) / float64(len(rantings))
 			finalRating = math.Round(rateAvr*100) / 100
-		} else {
-			finalRating = 0
 		}
 		res = append(res, response.GetListByStatusResponse{
 			ID:          enterprise.ID,

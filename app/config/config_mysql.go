@@ -6,7 +6,7 @@ import (
 	"github.com/nrmadi02/mini-project/db/seeds"
 	"github.com/nrmadi02/mini-project/domain"
 	log "github.com/sirupsen/logrus"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 	"os"
 )
@@ -31,7 +31,7 @@ func InitDB() *gorm.DB {
 		DB_Name:     os.Getenv("DB_NAME"),
 	}
 
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	connectionString := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s",
 
 		config.DB_Username,
 		config.DB_Password,
@@ -45,7 +45,7 @@ func InitDB() *gorm.DB {
 		log.Fatal(err.Error())
 	}
 
-	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{
+	DB, err = gorm.Open(sqlserver.Open(connectionString), &gorm.Config{
 		Logger: utils.SlowLoggerGorm(cm),
 	})
 	if err != nil {

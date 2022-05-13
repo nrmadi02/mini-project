@@ -8,8 +8,8 @@ import (
 type Review struct {
 	ID           uuid.UUID `json:"id" gorm:"PrimaryKey"`
 	Review       string    `json:"review"`
-	EnterpriseID uuid.UUID `json:"enterprise_id" gorm:"notnull;type:varchar;size:191"`
-	UserID       uuid.UUID `json:"user_id" gorm:"notnull;type:varchar;size:191"`
+	EnterpriseID uuid.UUID `json:"enterprise_id" gorm:"notnull;type:varchar;size:256"`
+	UserID       uuid.UUID `json:"user_id" gorm:"notnull;type:varchar;size:256"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 }

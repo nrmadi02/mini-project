@@ -41,11 +41,7 @@ func (a adminController) GetUserList(c echo.Context) error {
 	claims := jwtBearer.Claims.(jwt.MapClaims)
 
 	isAdmin, err := a.AuthUsecase.CheckIfUserIsAdmin(claims["UserID"].(string))
-	if err != nil {
-		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-	}
-
-	if !isAdmin {
+	if err != nil || !isAdmin {
 		return response.FailResponse(c, http.StatusUnauthorized, false, "only access admin")
 	}
 

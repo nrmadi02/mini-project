@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/nrmadi02/mini-project/app/config"
 	"github.com/nrmadi02/mini-project/app/router"
-	_ "github.com/nrmadi02/mini-project/docs"
+	docs "github.com/nrmadi02/mini-project/docs"
 	log "github.com/sirupsen/logrus"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"os"
@@ -17,14 +17,15 @@ import (
 // @title UMKM applications Documentation
 // @description This is a UMKM management application
 // @version 2.0
-// @host localhost:8080
 // @BasePath /api/v1
-// @schemes http
+// @schemes http https
 // @securityDefinitions.apiKey JWT
 // @in header
 // @name Authorization
 
 func Run() {
+	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")
+
 	db := config.InitDB()
 
 	e := echo.New()
