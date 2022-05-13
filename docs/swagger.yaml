@@ -162,7 +162,6 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: This is a UMKM management application
@@ -420,8 +419,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             allOf:
             - $ref: '#/definitions/response.JSONSuccessResult'
@@ -611,8 +610,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             allOf:
             - $ref: '#/definitions/response.JSONSuccessResult'
@@ -640,8 +639,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             allOf:
             - $ref: '#/definitions/response.JSONSuccessResult'
@@ -678,8 +677,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             allOf:
             - $ref: '#/definitions/response.JSONSuccessResult'
@@ -1121,6 +1120,7 @@ paths:
       - User
 schemes:
 - http
+- https
 securityDefinitions:
   JWT:
     in: header

@@ -5,8 +5,8 @@ import uuid "github.com/satori/go.uuid"
 type RatingEnterprise struct {
 	ID           uuid.UUID `json:"id" gorm:"PrimaryKey"`
 	Rating       int       `json:"rating"`
-	EnterpriseID uuid.UUID `json:"enterprise_id" gorm:"notnull;type:varchar;size:191"`
-	UserID       uuid.UUID `json:"user_id" gorm:"notnull;type:varchar;size:191"`
+	EnterpriseID uuid.UUID `json:"enterprise_id" gorm:"notnull;type:varchar;size:256"`
+	UserID       uuid.UUID `json:"user_id" gorm:"notnull;type:varchar;size:256"`
 }
 
 type RatingEnterprises []RatingEnterprise

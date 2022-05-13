@@ -6,10 +6,6 @@ RUN apk add git
 
 RUN mkdir /app
 
-RUN go install github.com/swaggo/swag/cmd/swag@latest
-
-RUN swag init -g app/server.go
-
 ADD . /app/
 
 WORKDIR /app

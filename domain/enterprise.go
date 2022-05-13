@@ -8,7 +8,7 @@ import (
 
 type Enterprise struct {
 	ID               uuid.UUID          `json:"id" gorm:"PrimaryKey"`
-	UserID           uuid.UUID          `json:"user_id" gorm:"notnull;type:varchar;size:191"`
+	UserID           uuid.UUID          `json:"user_id" gorm:"notnull;type:varchar;size:256"`
 	Name             string             `json:"name" gorm:"notnull"`
 	NumberPhone      string             `json:"number_phone" gorm:"notnull"`
 	Address          string             `json:"address" gorm:"notnull"`

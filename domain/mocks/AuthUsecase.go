@@ -51,6 +51,7 @@ func (_m *AuthUsecase) GetUserDetails(id string) (domain.User, domain.Favorite, 
 	var r1 domain.Favorite
 	if rf, ok := ret.Get(1).(func(string) domain.Favorite); ok {
 		r1 = rf(id)
+
 	} else {
 		r1 = ret.Get(1).(domain.Favorite)
 	}
