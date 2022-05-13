@@ -5,36 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778d8ea7-f505-47a1-af0c-7c1e27d7f27a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/cd.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/enterprise/delivery/http/enterprise_controller_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/favorite/delivery/http/favorite_controller_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/review/delivery/http/review_controller_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/tag/delivery/http/tag_controller_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/user/delivery/http/user_controller_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env_example" beforeDir="false" afterPath="$PROJECT_DIR$/.env_example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/config_mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config_mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cover.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/cover.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/enterprise.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/favorite.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/favorite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/mocks/AuthUsecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/mocks/AuthUsecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/rating_enterprise.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/rating_enterprise.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/review.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/review.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/enterprise/delivery/http/enterprise_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/enterprise/delivery/http/enterprise_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/favorite/delivery/http/favorite_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/favorite/delivery/http/favorite_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/tag/delivery/http/tag_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/tag/delivery/http/tag_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/delivery/http/admin_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/delivery/http/admin_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/user/delivery/http/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/user/delivery/http/user_controller.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
