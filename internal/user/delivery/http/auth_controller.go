@@ -70,7 +70,7 @@ func (a authController) Register(c echo.Context) error {
 // @accept json
 // @Produce json
 // @Router /login [post]
-// @Success 201 {object} response.JSONSuccessResult{data=response.SuccessLogin}
+// @Success 200 {object} response.JSONSuccessResult{data=response.SuccessLogin}
 // @Failure 400 {object} response.JSONBadRequestResult{}
 // @Failure 401 {object} response.JSONUnauthorizedResult{}
 func (a authController) Login(c echo.Context) error {
