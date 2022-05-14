@@ -247,11 +247,12 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	enterprises, totalData, err := e.enterpriseUsecase.GetListAllEnterprise(search, page, length)
 	var pageCount int
-	if len(enterprises) != 0 {
-		pageCount = int(math.Ceil(float64(totalData / len(enterprises))))
+	if length == 0 {
+		pageCount = int(math.Ceil(float64(totalData) / float64(len(enterprises))))
 	} else {
-		pageCount = int(math.Ceil(float64(totalData / length)))
+		pageCount = int(math.Ceil(float64(totalData) / float64(length)))
 	}
+
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
