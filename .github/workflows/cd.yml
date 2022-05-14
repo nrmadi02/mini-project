@@ -9,7 +9,7 @@ jobs:
     steps:
       - run: echo "starting cd for deployment"
   
-  docker:
+  docker-and-push:
     runs-on: ubuntu-latest
     steps:
       -
@@ -39,4 +39,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            echo "testing cd"
+            echo "starting running docker mini-project"
+            docker container rm mini-project --force
+            docker pull nrmadi02/nrmadi02-mini-project:latest
+            docker run -p 8080:8080 --env-file ./.env --name mini-project --detach nrmadi02/nrmadi02-mini-project:latest
