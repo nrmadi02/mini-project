@@ -29,7 +29,7 @@ func SlowLoggerGorm(cm *mongo.Database) logger.Interface {
 	slowLogger := logger.New(
 		NewMyWriter(cm),
 		logger.Config{
-			SlowThreshold: 200 * time.Millisecond,
+			SlowThreshold: time.Millisecond,
 			LogLevel:      logger.Warn,
 		},
 	)
