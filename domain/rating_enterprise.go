@@ -13,6 +13,7 @@ type RatingEnterprises []RatingEnterprise
 
 type RatingRepository interface {
 	GetAllRatingByEnterpriseID(id string) (RatingEnterprises, error)
+	FindAvgByEnterpriseID(id string) float64
 	FindRatingByIDUserAndEnterprise(id string, userid string) (RatingEnterprise, error)
 	UpdateRating(id string, userid string, value int) (RatingEnterprise, error)
 	DeleteRating(rating RatingEnterprise) error
@@ -21,6 +22,7 @@ type RatingRepository interface {
 
 type RatingUsecase interface {
 	GetAllRatingByEnterpriseID(id string) (RatingEnterprises, error)
+	GetAverageRatingEnterprise(id string) float64
 	FindRating(id, userid string) (RatingEnterprise, error)
 	UpdateRating(id, userid string, value int) (RatingEnterprise, error)
 	DeleteRating(id, userid string) error
