@@ -39,3 +39,10 @@ func (r ratingRepository) DeleteRating(rating domain.RatingEnterprise) error {
 	err := r.DB.Where("enterprise_id = ? AND user_id = ? ", rating.EnterpriseID, rating.UserID).Delete(&rating).Error
 	return err
 }
+
+func (r ratingRepository) FindAvgByEnterpriseID(id string) float64 {
+	var result float64
+	row := r.DB.Table("rating_enterprises").Where("enterprise_id = ?", id).Select("avg(rating)").Row()
+	row.Scan(&result)
+	return result
+}

@@ -91,6 +91,20 @@ func (_m *RatingUsecase) GetAllRatingByEnterpriseID(id string) (domain.RatingEnt
 	return r0, r1
 }
 
+// GetAverageRatingEnterprise provides a mock function with given fields: id
+func (_m *RatingUsecase) GetAverageRatingEnterprise(id string) float64 {
+	ret := _m.Called(id)
+
+	var r0 float64
+	if rf, ok := ret.Get(0).(func(string) float64); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Get(0).(float64)
+	}
+
+	return r0
+}
+
 // UpdateRating provides a mock function with given fields: id, userid, value
 func (_m *RatingUsecase) UpdateRating(id string, userid string, value int) (domain.RatingEnterprise, error) {
 	ret := _m.Called(id, userid, value)

@@ -47,6 +47,20 @@ func (_m *RatingRepository) DeleteRating(rating domain.RatingEnterprise) error {
 	return r0
 }
 
+// FindAvgByEnterpriseID provides a mock function with given fields: id
+func (_m *RatingRepository) FindAvgByEnterpriseID(id string) float64 {
+	ret := _m.Called(id)
+
+	var r0 float64
+	if rf, ok := ret.Get(0).(func(string) float64); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Get(0).(float64)
+	}
+
+	return r0
+}
+
 // FindRatingByIDUserAndEnterprise provides a mock function with given fields: id, userid
 func (_m *RatingRepository) FindRatingByIDUserAndEnterprise(id string, userid string) (domain.RatingEnterprise, error) {
 	ret := _m.Called(id, userid)

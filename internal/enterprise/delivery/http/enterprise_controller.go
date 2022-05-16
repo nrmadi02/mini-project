@@ -151,23 +151,7 @@ func (e enterpriseController) GetEnterpriseByStatus(c echo.Context) error {
 	var res []response.GetListByStatusResponse
 
 	for _, enterprise := range resEnterprises {
-		details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
-		rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-		if err != nil {
-			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-		}
-		var currRat int
-		var finalRating float64
-		if len(rantings) != 0 {
-			for _, arr := range rantings {
-				currRat += arr.Rating
-			}
-			var rateAvr float64
-			rateAvr = float64(currRat) / float64(len(rantings))
-			finalRating = math.Round(rateAvr*100) / 100
-		} else {
-			finalRating = 0
-		}
+		rating := e.ratingUsecase.GetAverageRatingEnterprise(enterprise.ID.String())
 		res = append(res, response.GetListByStatusResponse{
 			ID:          enterprise.ID,
 			Name:        enterprise.Name,
@@ -182,10 +166,7 @@ func (e enterpriseController) GetEnterpriseByStatus(c echo.Context) error {
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,
 			Longitude:   enterprise.Longitude,
-			Rating:      finalRating,
-			Owner: response.UserDetailResponse{
-				ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
-			},
+			Rating:      math.Round(rating*100) / 100,
 		})
 	}
 
@@ -260,23 +241,7 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 	var res []response.GetListByStatusResponse
 
 	for _, enterprise := range enterprises {
-		details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
-		rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-		if err != nil {
-			return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-		}
-		var currRat int
-		var finalRating float64
-		if len(rantings) != 0 {
-			for _, arr := range rantings {
-				currRat += arr.Rating
-			}
-			var rateAvr float64
-			rateAvr = float64(currRat) / float64(len(rantings))
-			finalRating = math.Round(rateAvr*100) / 100
-		} else {
-			finalRating = 0
-		}
+		rating := e.ratingUsecase.GetAverageRatingEnterprise(enterprise.ID.String())
 		res = append(res, response.GetListByStatusResponse{
 			ID:          enterprise.ID,
 			Name:        enterprise.Name,
@@ -291,10 +256,7 @@ func (e enterpriseController) GetAllEnterprises(c echo.Context) error {
 			CreatedAt:   enterprise.CreatedAt,
 			Latitude:    enterprise.Latitude,
 			Longitude:   enterprise.Longitude,
-			Rating:      finalRating,
-			Owner: response.UserDetailResponse{
-				ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
-			},
+			Rating:      math.Round(rating*100) / 100,
 		})
 	}
 
@@ -374,19 +336,7 @@ func (e enterpriseController) GetDetailEnterpriseByID(c echo.Context) error {
 		return response.FailResponse(c, http.StatusNotFound, false, "enterprise not found")
 	}
 
-	rantings, _ := e.ratingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-	var currRat int
-	var finalRating = float64(0)
-	if len(rantings) != 0 {
-		for _, arr := range rantings {
-			currRat += arr.Rating
-		}
-		var rateAvr float64
-		rateAvr = float64(currRat) / float64(len(rantings))
-		finalRating = math.Round(rateAvr*100) / 100
-	}
-
-	details, _, _, _ := e.authUsecase.GetUserDetails(enterprise.UserID.String())
+	rating := e.ratingUsecase.GetAverageRatingEnterprise(enterprise.ID.String())
 	res := response.GetListByStatusResponse{
 		ID:          enterprise.ID,
 		Name:        enterprise.Name,
@@ -401,10 +351,7 @@ func (e enterpriseController) GetDetailEnterpriseByID(c echo.Context) error {
 		CreatedAt:   enterprise.CreatedAt,
 		Latitude:    enterprise.Latitude,
 		Longitude:   enterprise.Longitude,
-		Rating:      finalRating,
-		Owner: response.UserDetailResponse{
-			ID: details.ID, Email: details.Email, Fullname: details.Fullname, Username: details.Username, CreatedAt: details.CreatedAt, UpdatedAt: details.UpdatedAt,
-		},
+		Rating:      math.Round(rating*100) / 100,
 	}
 
 	return response.SuccessResponse(c, http.StatusOK, true, "success get detail enterprise", res)
@@ -485,19 +432,10 @@ func (e enterpriseController) AddNewRanting(c echo.Context) error {
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
-	rantings, err := e.ratingUsecase.GetAllRatingByEnterpriseID(enterpriseid)
-	if err != nil {
-		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
-	}
-	var currRat int
-	for _, arr := range rantings {
-		currRat += arr.Rating
-	}
-	var rateAvr float64
-	rateAvr = float64(currRat) / float64(len(rantings))
+	ratings := e.ratingUsecase.GetAverageRatingEnterprise(enterpriseid)
 	return response.SuccessResponse(c, http.StatusCreated, true, "success add rating", map[string]interface{}{
 		"rating":         ranting,
-		"rating_average": math.Round(rateAvr*100) / 100,
+		"rating_average": math.Round(ratings*100) / 100,
 	})
 }
 
@@ -618,17 +556,8 @@ func (e enterpriseController) UpdateRating(c echo.Context) error {
 		}
 
 		resRating, _ := e.ratingUsecase.FindRating(id, userid)
-		rantings, _ := e.ratingUsecase.GetAllRatingByEnterpriseID(id)
-		var currRat int
-		var finalRating = float64(0)
-		if len(rantings) != 0 {
-			for _, arr := range rantings {
-				currRat += arr.Rating
-			}
-			var rateAvr float64
-			rateAvr = float64(currRat) / float64(len(rantings))
-			finalRating = math.Round(rateAvr*100) / 100
-		}
+		ratings := e.ratingUsecase.GetAverageRatingEnterprise(id)
+		finalRating := math.Round(ratings*100) / 100
 		return response.SuccessResponse(c, http.StatusOK, true, "success update rating", map[string]interface{}{
 			"rating":         resRating,
 			"rating_average": finalRating,
