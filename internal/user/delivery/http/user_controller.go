@@ -56,17 +56,8 @@ func (u userController) User(c echo.Context) error {
 	}
 
 	for _, enterprise := range enterprises {
-		rantings, _ := u.RatingUsecase.GetAllRatingByEnterpriseID(enterprise.ID.String())
-		var currRat int
-		var finalRating = float64(0)
-		if len(rantings) != 0 {
-			for _, arr := range rantings {
-				currRat += arr.Rating
-			}
-			var rateAvr float64
-			rateAvr = float64(currRat) / float64(len(rantings))
-			finalRating = math.Round(rateAvr*100) / 100
-		}
+		rating := u.RatingUsecase.GetAverageRatingEnterprise(enterprise.ID.String())
+		finalRating := math.Round(rating*100) / 100
 		resEnterprises = append(resEnterprises, struct {
 			ID          uuid.UUID   `json:"id"`
 			UserID      uuid.UUID   `json:"user_id"`

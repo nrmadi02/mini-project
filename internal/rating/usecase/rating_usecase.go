@@ -115,3 +115,7 @@ func (r ratingUsecase) FindRating(id, userid string) (domain.RatingEnterprise, e
 
 	return rating, err
 }
+
+func (r ratingUsecase) GetAverageRatingEnterprise(id string) float64 {
+	return r.ratingRepository.FindAvgByEnterpriseID(id)
+}
