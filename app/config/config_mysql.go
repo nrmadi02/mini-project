@@ -32,7 +32,6 @@ func InitDB() *gorm.DB {
 	}
 
 	connectionString := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s",
-
 		config.DB_Username,
 		config.DB_Password,
 		config.DB_Host,

@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"github.com/nrmadi02/mini-project/domain"
+	"github.com/nrmadi02/mini-project/web/response"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -10,13 +11,15 @@ type reviewUsecase struct {
 	enterpriseRepository domain.EnterpriseRepository
 	userRepository       domain.UserRepository
 	reviewRepository     domain.ReviewRepository
+	authUsecase          domain.AuthUsecase
 }
 
-func NewReviewUsecase(er domain.EnterpriseRepository, ur domain.UserRepository, rr domain.ReviewRepository) domain.ReviewUsecase {
+func NewReviewUsecase(er domain.EnterpriseRepository, ur domain.UserRepository, rr domain.ReviewRepository, au domain.AuthUsecase) domain.ReviewUsecase {
 	return reviewUsecase{
 		enterpriseRepository: er,
 		userRepository:       ur,
 		reviewRepository:     rr,
+		authUsecase:          au,
 	}
 }
 
@@ -68,13 +71,28 @@ func (r reviewUsecase) DeleteReview(enterpriseid, userid string) error {
 	return err
 }
 
-func (r reviewUsecase) GetListReviewsByEnterpriseID(id string) (domain.Reviews, error) {
+func (r reviewUsecase) GetListReviewsByEnterpriseID(id string) ([]interface{}, error) {
 	reviews, err := r.reviewRepository.FindByEnterpriseID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	return reviews, nil
+	var resReview []interface{}
+
+	for _, review := range reviews {
+		user, _, _, _ := r.authUsecase.GetUserDetails(review.UserID.String())
+		resReview = append(resReview, struct {
+			Review   interface{} `json:"review"`
+			FromUser interface{} `json:"from_user"`
+		}{
+			Review: review,
+			FromUser: response.UsersListResponse{
+				ID: user.ID, Email: user.Email, Fullname: user.Fullname, Username: user.Username, CreatedAt: user.CreatedAt, UpdatedAt: user.UpdatedAt,
+			},
+		})
+	}
+
+	return resReview, nil
 }
 
 func (r reviewUsecase) GetReviewByUserIDAndEnterpriseID(enterpriseid, userid string) (domain.Review, error) {
@@ -91,5 +109,6 @@ func (r reviewUsecase) GetDetailReviewByID(id string) (domain.Review, error) {
 	if err != nil {
 		return domain.Review{}, err
 	}
+
 	return review, err
 }

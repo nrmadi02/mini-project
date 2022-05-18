@@ -69,15 +69,15 @@ func (_m *ReviewUsecase) GetDetailReviewByID(id string) (domain.Review, error) {
 }
 
 // GetListReviewsByEnterpriseID provides a mock function with given fields: id
-func (_m *ReviewUsecase) GetListReviewsByEnterpriseID(id string) (domain.Reviews, error) {
+func (_m *ReviewUsecase) GetListReviewsByEnterpriseID(id string) ([]interface{}, error) {
 	ret := _m.Called(id)
 
-	var r0 domain.Reviews
-	if rf, ok := ret.Get(0).(func(string) domain.Reviews); ok {
+	var r0 []interface{}
+	if rf, ok := ret.Get(0).(func(string) []interface{}); ok {
 		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(domain.Reviews)
+			r0 = ret.Get(0).([]interface{})
 		}
 	}
 
