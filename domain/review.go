@@ -29,7 +29,7 @@ type ReviewUsecase interface {
 	AddReview(enterpriseid, userid string, value string) (Review, error)
 	UpdateReview(enterpriseid, userid string, value string) (Review, error)
 	DeleteReview(enterpriseid, userid string) error
-	GetListReviewsByEnterpriseID(id string) (Reviews, error)
+	GetListReviewsByEnterpriseID(id string) ([]interface{}, error)
 	GetReviewByUserIDAndEnterpriseID(enterpriseid, userid string) (Review, error)
 	GetDetailReviewByID(id string) (Review, error)
 }

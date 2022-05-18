@@ -91,25 +91,11 @@ func (r reviewController) GetListReviewByEnterpriseID(c echo.Context) error {
 	if err != nil {
 		return response.FailResponse(c, http.StatusBadRequest, false, err.Error())
 	}
-	var resReview []interface{}
-
-	for _, review := range reviews {
-		user, _, _, _ := r.authUsecase.GetUserDetails(review.UserID.String())
-		resReview = append(resReview, struct {
-			Review   interface{} `json:"review"`
-			FromUser interface{} `json:"from_user"`
-		}{
-			Review: review,
-			FromUser: response.UsersListResponse{
-				ID: user.ID, Email: user.Email, Fullname: user.Fullname, Username: user.Username, CreatedAt: user.CreatedAt, UpdatedAt: user.UpdatedAt,
-			},
-		})
-	}
 
 	resFinal := struct {
 		Enterprise interface{}   `json:"enterprise"`
 		Reviews    []interface{} `json:"reviews"`
-	}{enterprise, resReview}
+	}{enterprise, reviews}
 
 	return response.SuccessResponse(c, http.StatusOK, true, "success get list review", resFinal)
 }

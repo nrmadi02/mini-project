@@ -41,7 +41,7 @@ func SetupRouter(c *echo.Echo, db *gorm.DB) {
 	enterpriseUsecase := usecase3.NewEnterpriseUsecase(enterpriseRepository, tagRepository, userRepository)
 	ratingUsecase := usecase4.NewRatingUsecase(userRepository, enterpriseRepository, ratingRepository)
 	favoriteUsecase := usecase5.NewFavoriteUsecase(enterpriseRepository, favoriteRepository)
-	reviewUsecase := usecase6.NewReviewUsecase(enterpriseRepository, userRepository, reviewRepository)
+	reviewUsecase := usecase6.NewReviewUsecase(enterpriseRepository, userRepository, reviewRepository, authUsecase)
 
 	authController := http6.NewAuthController(authUsecase)
 	userController := http6.NewUserController(authUsecase, ratingUsecase)
