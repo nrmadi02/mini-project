@@ -9,6 +9,7 @@ import (
 	"github.com/nrmadi02/mini-project/domain/mocks"
 	http2 "github.com/nrmadi02/mini-project/internal/review/delivery/http"
 	"github.com/nrmadi02/mini-project/internal/user/delivery/http/helper"
+	"github.com/nrmadi02/mini-project/web/response"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -274,8 +275,17 @@ func TestReviewController_GetListReviewByEnterpriseID(t *testing.T) {
 		c.SetParamValues(dummyEnterprise[0].ID.String())
 		reviewController := http2.NewReviewController(mockReviewUsecase, mockEnterpriseUsecase, mockAuthUsecase)
 		mockEnterpriseUsecase.On("GetDetailEnterpriseByID", mock.Anything).Return(dummyEnterprise[0], nil).Once()
-		mockReviewUsecase.On("GetListReviewsByEnterpriseID", mock.Anything).Return(domain.Reviews{dummyReview[0]}, nil).Once()
-		mockAuthUsecase.On("GetUserDetails", mock.Anything).Return(dummyUser[0], domain.Favorite{}, domain.Enterprises{}, nil).Once()
+		mockReviewUsecase.On("GetListReviewsByEnterpriseID", mock.Anything).Return([]interface{}{
+			struct {
+				Review   interface{} `json:"review"`
+				FromUser interface{} `json:"from_user"`
+			}{
+				Review: dummyReview[0],
+				FromUser: response.UsersListResponse{
+					ID: dummyUser[0].ID, Email: dummyUser[0].Email, Fullname: dummyUser[0].Fullname, Username: dummyUser[0].Username, CreatedAt: dummyUser[0].CreatedAt, UpdatedAt: dummyUser[0].UpdatedAt,
+				},
+			},
+		}, nil).Once()
 		err := middlewareToken(reviewController.GetListReviewByEnterpriseID, c)
 		responseBody := parseResponse(rec)
 		assert.NoError(t, err)
@@ -306,7 +316,7 @@ func TestReviewController_GetListReviewByEnterpriseID(t *testing.T) {
 		c.SetParamValues(dummyEnterprise[0].ID.String())
 		reviewController := http2.NewReviewController(mockReviewUsecase, mockEnterpriseUsecase, mockAuthUsecase)
 		mockEnterpriseUsecase.On("GetDetailEnterpriseByID", mock.Anything).Return(dummyEnterprise[0], nil).Once()
-		mockReviewUsecase.On("GetListReviewsByEnterpriseID", mock.Anything).Return(domain.Reviews{}, errors.New("error something")).Once()
+		mockReviewUsecase.On("GetListReviewsByEnterpriseID", mock.Anything).Return([]interface{}{}, errors.New("error something")).Once()
 		err := middlewareToken(reviewController.GetListReviewByEnterpriseID, c)
 		responseBody := parseResponse(rec)
 		assert.NoError(t, err)
